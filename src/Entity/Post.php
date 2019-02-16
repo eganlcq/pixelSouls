@@ -45,6 +45,12 @@ class Post
      */
     private $responses;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypePost", inversedBy="relatedPosts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
+
     public function __construct()
     {
         $this->responses = new ArrayCollection();
@@ -141,6 +147,18 @@ class Post
                 $response->setRelatedPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?TypePost
+    {
+        return $this->type;
+    }
+
+    public function setType(?TypePost $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -10,8 +10,8 @@ use App\Entity\Armor;
 use App\Entity\Fight;
 use App\Entity\Weapon;
 use App\Entity\Fighter;
-use App\Entity\Message;
 use App\Entity\Response;
+use App\Entity\TypePost;
 use App\Entity\Achievement;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -28,6 +28,7 @@ class AppFixtures extends Fixture
     private $listWeapon;
     private $listArmor;
     private $listFighter;
+    private $listTypePost;
 
     public function __construct(UserPasswordEncoderInterface $encoder) {
 
@@ -44,6 +45,7 @@ class AppFixtures extends Fixture
         $this->listWeapon       = [];
         $this->listArmor        = [];
         $this->listFighter      = [];
+        $this->listTypePost     = [];
 
         $url = 'https://avatars.io/instagram/username';
 
@@ -540,6 +542,11 @@ class AppFixtures extends Fixture
             "Armor made of spikes"
         );
 
+        // CREATION DES TYPES DE POST
+        $this->createTypePost("Discussion")
+             ->createTypePost("Request")
+             ->createTypePost("Technical problems");
+
         foreach($this->listUser as $user) {
 
             for($i = 1; $i < mt_rand(0, 9); $i++) {
@@ -567,13 +574,6 @@ class AppFixtures extends Fixture
             else {
 
                 $user->addCurrentRole($this->listRole[0]);
-            }
-
-            // CREATION DES MESSAGES
-            for($i = 1; $i <= mt_rand(0, 10); $i++) {
-
-                $message = $this->createMessage($user);
-                $manager->persist($message);
             }
 
             // CREATION DES POSTS
@@ -645,6 +645,11 @@ class AppFixtures extends Fixture
             $manager->persist($armor);
         }
 
+        foreach($this->listTypePost as $typePost) {
+
+            $manager->persist($typePost);
+        }
+
         $manager->flush();
     }
 
@@ -689,26 +694,27 @@ class AppFixtures extends Fixture
         return $this;
     }
 
-    private function createMessage($user) {
-
-        $message = new Message();
-
-        $message->setContent($this->faker->paragraph())
-                ->setSender($user)
-                ->setReceiver($this->listUser[mt_rand(0, count($this->listUser) - 1)]);
-
-        return $message;
-    }
-
     private function createPost($user) {
 
         $post = new Post();
 
         $post->setTitle($this->faker->sentence())
              ->setContent($this->faker->paragraph())
-             ->setWriter($user);
+             ->setWriter($user)
+             ->setType($this->listTypePost[mt_rand(0, count($this->listTypePost) - 1)]);
 
         return $post;
+    }
+
+    private function createTypePost($name) {
+
+        $typePost = new TypePost();
+
+        $typePost->setName($name);
+
+        $this->listTypePost[] = $typePost;
+
+        return $this;
     }
 
     private function createResponse($post) {
