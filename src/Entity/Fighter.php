@@ -130,6 +130,21 @@ class Fighter
         if(empty($this->attackLost)) $this->attackLost      = 0;
     }
 
+    public function getExperienceNeeded() {
+
+        return $this->level * 100;
+    }
+
+    public function getTotalWin() {
+
+        return $this->defenseWon + $this->attackWon;
+    }
+
+    public function getTotalLoose() {
+
+        return $this->defenseLost + $this->attackLost;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
