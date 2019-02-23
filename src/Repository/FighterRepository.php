@@ -19,32 +19,13 @@ class FighterRepository extends ServiceEntityRepository
         parent::__construct($registry, Fighter::class);
     }
 
-    // /**
-    //  * @return Fighter[] Returns an array of Fighter objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    public function findAllOpponents($id) {
 
-    /*
-    public function findOneBySomeField($value): ?Fighter
-    {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+                    ->select('f')
+                    ->join('f.owner', 'u')
+                    ->where('u.id != ' . $id)
+                    ->getQuery()
+                    ->getResult();
     }
-    */
 }

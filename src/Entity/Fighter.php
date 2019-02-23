@@ -145,6 +145,16 @@ class Fighter
         return $this->defenseLost + $this->attackLost;
     }
 
+    public function getOwnerFullName() {
+
+        return $this->owner->getFullName();
+    }
+
+    public function getOwnerAvatar() {
+
+        return $this->owner->getImage();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

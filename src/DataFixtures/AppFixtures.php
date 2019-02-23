@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
         $this->listFighter      = [];
         $this->listTypePost     = [];
 
-        $url = 'https://avatars.io/instagram/username';
+        $url = 'http://127.0.0.1:8000/img/anonym.png';
 
         // CREATION DES UTILISATEURS
         $this->createUser(
