@@ -76,7 +76,26 @@ class GameController extends AbstractController
                 'experience',
                 'totalWin',
                 'totalLoose',
-                'experienceNeeded'
+                'experienceNeeded',
+                'owner' => [
+                    'id',
+                    'pseudo',
+                    'score',
+                    'image',
+                    'favoriteUsers' => [
+                        'id'
+                    ],
+                    'fans' => [
+                        'id'
+                    ]
+                ],
+                'weapons' => [
+                    'id',
+                    'name',
+                    'power',
+                    'speed',
+                    'parryChance'
+                ]
             ]
         ]);   
     }
@@ -104,8 +123,19 @@ class GameController extends AbstractController
                 'totalWin',
                 'totalLoose',
                 'experienceNeeded',
-                'ownerFullName',
-                'ownerAvatar'
+                'owner' => [
+                    'id',
+                    'pseudo',
+                    'score',
+                    'image',
+                ],
+                'weapons' => [
+                    'id',
+                    'name',
+                    'power',
+                    'speed',
+                    'parryChance'
+                ]
             ]
         ]); 
     }
@@ -119,5 +149,48 @@ class GameController extends AbstractController
         $manager->flush();
 
         return $this->redirectToRoute('game_listCharacters');
+    }
+
+    /**
+     * @Route("/test", name="test")
+     */
+    public function test(UserRepository $repo) {
+
+        $user = $repo->findOneBy([
+            'firstName' => 'Egan'
+        ]);
+
+        return $this->json($user, 200, [], [
+            ObjectNormalizer::ATTRIBUTES => [
+                'id',
+                'pseudo',
+                'score',
+                'image',
+                'favoriteUsers' => [
+                    'id'
+                ],
+                'fans' => [
+                    'id'
+                ]
+            ]
+        ]); 
+    }
+
+    /**
+     * @Route("/updateFighter/{id}", name="updateFighter")
+     */
+    public function updateFighter(Fighter $fighter, ObjectManager $manager) {
+
+        if(isset($_POST['json'])) {
+
+            $json = $_POST['json'];
+            $data = json_decode($json);
+            $fighter->setExperience($data->experience);
+            $fighter->setLevel($data->level);
+            $manager->merge($fighter);
+            $manager->flush();
+        }
+
+        return new Response();
     }
 }

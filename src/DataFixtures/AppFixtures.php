@@ -204,14 +204,6 @@ class AppFixtures extends Fixture
 
         // CREATION DES ARMES
         $this->createWeapon(
-            "Fist",
-            $url,
-            30,
-            100,
-            0,
-            "Your bare hands, deal almost no damages but hey, better than nothing"
-        )
-        ->createWeapon(
             "Dagger",
             $url,
             65,
@@ -549,17 +541,18 @@ class AppFixtures extends Fixture
 
         foreach($this->listUser as $user) {
 
-            for($i = 1; $i < mt_rand(0, 9); $i++) {
+            for($i = 1; $i < $this->faker->numberBetween(0, 20); $i++) {
 
-                $otherUser = $this->listUser[mt_rand(0, count($this->listUser) - 1)];
+                $otherUser = $this->listUser[$this->faker->numberBetween(0, count($this->listUser) - 1)];
+                
 
                 $user->addFavoriteUser($otherUser);
                 $otherUser->addFan($user);
             }
 
-            for($i = 1; $i < mt_rand(0, 10); $i++) {
+            for($i = 1; $i < $this->faker->numberBetween(0, 10); $i++) {
 
-                $achievement = $this->listAchievement[mt_rand(0, count($this->listAchievement) - 1)];
+                $achievement = $this->listAchievement[$this->faker->numberBetween(0, count($this->listAchievement) - 1)];
 
                 $user->addAchievement($achievement);
             }
@@ -577,13 +570,13 @@ class AppFixtures extends Fixture
             }
 
             // CREATION DES POSTS
-            for($i = 1; $i <= mt_rand(0, 10); $i++) {
+            for($i = 1; $i <= $this->faker->numberBetween(0, 10); $i++) {
 
                 $post = $this->createPost($user);
                 $manager->persist($post);
 
                 // CREATION DES REPONSES
-                for($i = 1; $i <= mt_rand(0, 10); $i++) {
+                for($i = 1; $i <= $this->faker->numberBetween(0, 10); $i++) {
 
                     $response = $this->createResponse($post);
                     $manager->persist($response);
@@ -591,7 +584,7 @@ class AppFixtures extends Fixture
             }
 
             // CREATION DES PERSONNAGES
-            for($i = 1; $i <= mt_rand(0, 10); $i++) {
+            for($i = 1; $i <= $this->faker->numberBetween(3, 6); $i++) {
 
                 $fighter = $this->createFighter($user, $url);
 
@@ -602,16 +595,16 @@ class AppFixtures extends Fixture
                     $manager->persist($fight);
                 }
 
-                for($i = 1; $i < mt_rand(0, 10); $i++) {
+                for($i = 1; $i < $this->faker->numberBetween(0, 10); $i++) {
 
-                    $weapon = $this->listWeapon[mt_rand(0, count($this->listWeapon) - 1)];
+                    $weapon = $this->listWeapon[$this->faker->numberBetween(0, count($this->listWeapon) - 1)];
     
                     $fighter->addWeapon($weapon);
                 }
 
-                for($i = 1; $i < mt_rand(0, 10); $i++) {
+                for($i = 1; $i < $this->faker->numberBetween(0, 10); $i++) {
 
-                    $armor = $this->listArmor[mt_rand(0, count($this->listArmor) - 1)];
+                    $armor = $this->listArmor[$this->faker->numberBetween(0, count($this->listArmor) - 1)];
     
                     $fighter->addArmor($armor);
                 }
@@ -701,7 +694,7 @@ class AppFixtures extends Fixture
         $post->setTitle($this->faker->sentence())
              ->setContent($this->faker->paragraph())
              ->setWriter($user)
-             ->setType($this->listTypePost[mt_rand(0, count($this->listTypePost) - 1)]);
+             ->setType($this->listTypePost[$this->faker->numberBetween(0, count($this->listTypePost) - 1)]);
 
         return $post;
     }
@@ -723,7 +716,7 @@ class AppFixtures extends Fixture
 
         $response->setContent($this->faker->paragraph())
                  ->setRelatedPost($post)
-                 ->setWriter($this->listUser[mt_rand(0, count($this->listUser) - 1)]);
+                 ->setWriter($this->listUser[$this->faker->numberBetween(0, count($this->listUser) - 1)]);
 
         return $response;
     }
@@ -778,7 +771,7 @@ class AppFixtures extends Fixture
         $fight = new Fight();
 
         $fight->setFighter($fighter)
-              ->setOpponent($this->listFighter[mt_rand(0, count($this->listFighter) - 1)]);
+              ->setOpponent($this->listFighter[$this->faker->numberBetween(0, count($this->listFighter) - 1)]);
 
         return $fight;
     }
