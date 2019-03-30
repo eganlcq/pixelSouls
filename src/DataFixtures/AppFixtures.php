@@ -205,7 +205,7 @@ class AppFixtures extends Fixture
         // CREATION DES ARMES
         $this->createWeapon(
             "Dagger",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/dagger.png',
             65,
             100,
             10,
@@ -213,7 +213,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Sword",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/sword.png',
             110,
             70,
             5,
@@ -221,39 +221,23 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Axe",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/axe.png',
             125,
             60,
             0,
             "Inflict good damage but a bit slow"
         )
         ->createWeapon(
-            "Spear",
-            $url,
-            105,
-            60,
-            40,
-            "Thrusting weapon, standard damage and low speed but high chance to parry"
-        )
-        ->createWeapon(
             "Hammer",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/hammer.png',
             115,
             65,
             0,
             "Common strike weapon, good damage but a bit slow"
         )
         ->createWeapon(
-            "Mace",
-            $url,
-            110,
-            80,
-            0,
-            "Simple wooden club, pretty fast for standard damage"
-        )
-        ->createWeapon(
             "Greatsword",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/greatsword.png',
             140,
             50,
             0,
@@ -261,7 +245,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Greataxe",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/greataxe.png',
             190,
             30,
             0,
@@ -269,39 +253,87 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Greathammer",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/greathammer.png',
             170,
             40,
             0,
             "Large hammer dealing extremely heavy strike attacks, really slow"
         )
         ->createWeapon(
-            "Katana",
-            $url,
-            115,
-            70,
-            30,
-            "Weapon with finely-sharpened blade who can cut flesh like butter, chance to parry"
-        )
-        ->createWeapon(
             "Curved sword",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/curvedBlade.png',
             90,
             90,
             40,
             "Small curved sword that excels in swift movement and very fast attacks, good chances to parry"
         )
         ->createWeapon(
+            "Estoc",
+            'http://127.0.0.1:8000/img/weapons/estoc.png',
+            105,
+            70,
+            0,
+            "Large thrusting sword used for dealing piercing damages"
+        )
+        ->createWeapon(
             "Halberd",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/halberd.png',
             125,
             60,
             30,
             "Long-hilted weapon mixing spear and axe, chance to parry"
         )
         ->createWeapon(
+            "Katana",
+            'http://127.0.0.1:8000/img/weapons/katana.png',
+            115,
+            70,
+            30,
+            "Weapon with finely-sharpened blade who can cut flesh like butter, chance to parry"
+        )
+        ->createWeapon(
+            "Scythe",
+            'http://127.0.0.1:8000/img/weapons/scythe.png',
+            115,
+            60,
+            20,
+            "Normally used for harvesting, but its sharp curved blade can be used for battle as well"
+        )
+        ->createWeapon(
+            "Mace",
+            'http://127.0.0.1:8000/img/weapons/cudgel.png',
+            110,
+            80,
+            0,
+            "Simple wooden club, pretty fast for standard damage"
+        )
+        ->createWeapon(
+            "Spear",
+            'http://127.0.0.1:8000/img/weapons/spear.png',
+            105,
+            60,
+            40,
+            "Thrusting weapon, standard damage and low speed but high chance to parry"
+        )
+        ->createWeapon(
+            "Bo",
+            'http://127.0.0.1:8000/img/weapons/bo.png',
+            95,
+            80,
+            25,
+            "Long piece of wood, used like a spear, deal less damage but faster"
+        )
+        ->createWeapon(
+            "Twin blades",
+            'http://127.0.0.1:8000/img/weapons/guandao.png',
+            125,
+            70,
+            0,
+            "Stick with blades on both sides of it"
+        )
+        ->createWeapon(
             "Sai",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/sai.png',
             60,
             90,
             60,
@@ -309,39 +341,15 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Tonfa",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/tonfa.png',
             80,
             90,
             40,
             "Weapon with grip on the side, high chances to parry"
         )
         ->createWeapon(
-            "Bo",
-            $url,
-            95,
-            80,
-            25,
-            "Long piece of wood, used like a spear, deal less damage but faster"
-        )
-        ->createWeapon(
-            "Scythe",
-            $url,
-            115,
-            60,
-            20,
-            "Normally used for harvesting, but its sharp curved blade can be used for battle as well"
-        )
-        ->createWeapon(
-            "Estoc",
-            $url,
-            105,
-            70,
-            0,
-            "Large thrusting sword used for dealing piercing damages"
-        )
-        ->createWeapon(
             "Fork",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/fork.png',
             105,
             60,
             0,
@@ -349,19 +357,11 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Frying pan",
-            $url,
+            'http://127.0.0.1:8000/img/weapons/pan.png',
             90,
             80,
             0,
             "It reminds me something..."
-        )
-        ->createWeapon(
-            "Twin blades",
-            $url,
-            125,
-            70,
-            0,
-            "Stick with blades on both sides of it"
         );
 
         // CREATION DES ARMURES

@@ -19,32 +19,22 @@ class WeaponRepository extends ServiceEntityRepository
         parent::__construct($registry, Weapon::class);
     }
 
-    // /**
-    //  * @return Weapon[] Returns an array of Weapon objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('w.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    public function findRemainingWeapons($id) {
 
-    /*
-    public function findOneBySomeField($value): ?Weapon
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->createQueryBuilder('w');
+        return $qb->select('w')
+                    ->where($qb->expr()->notIn('w.id', $this->findOwnedWeapons($id)))
+                    ->getQuery()
+                    ->getResult();
     }
-    */
+
+    public function findOwnedWeapons($id) {
+
+        return array_map('current', $this->createQueryBuilder('w')
+                    ->select('w.id')
+                    ->join('w.owners', 'f')
+                    ->where('f.id = ' . $id)
+                    ->getQuery()
+                    ->getResult());
+    }
 }

@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Weapon;
 use App\Entity\Fighter;
 use App\Repository\UserRepository;
+use App\Repository\WeaponRepository;
 use App\Repository\FighterRepository;
 use Symfony\Component\Serializer\Serializer;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -94,7 +96,7 @@ class GameController extends AbstractController
                     'name',
                     'power',
                     'speed',
-                    'parryChance'
+                    'parryChance',
                 ]
             ]
         ]);   
@@ -138,6 +140,24 @@ class GameController extends AbstractController
                 ]
             ]
         ]); 
+    }
+
+    /**
+     * @Route("/listWeapons/{id}", name="game_listWeapons")
+     */
+    public function listWeapons(Fighter $fighter, WeaponRepository $repo) {
+
+        $weapons = $repo->findRemainingWeapons($fighter->getId());
+
+        return $this->json($weapons, 200, [], [
+            ObjectNormalizer::ATTRIBUTES => [
+                'id',
+                'name',
+                'power',
+                'speed',
+                'parryChance'
+            ]
+        ]);
     }
 
     /**
@@ -187,7 +207,53 @@ class GameController extends AbstractController
             $data = json_decode($json);
             $fighter->setExperience($data->experience);
             $fighter->setLevel($data->level);
+            $fighter->setStrength($data->strength);
+            $fighter->setDexterity($data->dexterity);
+            $fighter->setVitality($data->vitality);
             $manager->merge($fighter);
+            $manager->flush();
+        }
+
+        return new Response();
+    }
+    /**
+     * @Route("/addWeapon/{id}", name="addWeapon")
+     */
+    public function addWeapon(Fighter $fighter, WeaponRepository $repo, ObjectManager $manager) {
+
+        if(isset($_POST['json'])) {
+
+            $json = $_POST['json'];
+            $data = json_decode($json);
+            $weapon = $repo->findOneBy(['name'=> $data->name]);
+            $fighter->addWeapon($weapon);
+            $manager->persist($fighter);
+            $manager->flush();
+        }
+
+        return new Response();
+    }
+
+    /**
+     * @Route("/newCharacter", name="newCharacter")
+     */
+    public function addFighter(UserRepository $repo, ObjectManager $manager) {
+
+        if(isset($_POST['json'])) {
+
+            $user = $repo->findOneBy([
+                "firstName" => "Egan"
+            ]);
+
+            $json = $_POST['json'];
+            $data = json_decode($json);
+
+            $fighter = new Fighter();
+            $fighter->setOwner($user)
+                    ->setName($data->name)
+                    ->setImage("http://127.0.0.1:8000/img/anonym.png");
+            
+            $manager->persist($fighter);
             $manager->flush();
         }
 

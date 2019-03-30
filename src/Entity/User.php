@@ -131,6 +131,11 @@ class User implements UserInterface
 
             $this->score = 1000;
         }
+
+        if(empty($this->image)) {
+
+            $this->image = 'http://127.0.0.1:8000/img/anonym.png';
+        }
     }
     
     public function getFullName() {
