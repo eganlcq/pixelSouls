@@ -14,7 +14,34 @@
     max-height:64px
 }
 
+.avatar.avatar-short {
+
+    max-width: 40px;
+    max-height: 40px;
+}
+
 .avatar.avatar-mini {
     max-width:24px;
     max-height:24px
+}
+
+.statsTable {
+
+    border-collapse: separate;
+    border-spacing: 2em 0;
+}
+
+.weapon {
+
+    transform: rotate(30deg)
+}
+
+.characterCard {
+
+    max-height: 310px;
+}
+
+.fixedHeight {
+
+    height: 400px;
 }

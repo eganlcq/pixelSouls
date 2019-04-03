@@ -19,6 +19,17 @@ class FightRepository extends ServiceEntityRepository
         parent::__construct($registry, Fight::class);
     }
 
+    public function findExistingFights($id) {
+
+        return $this->createQueryBuilder('f')
+                    ->select('f')
+                    ->where('f.fighter = ' . $id)
+                    ->orWhere('f.opponent = ' . $id)
+                    ->orderBy('f.createdAt', 'ASC')
+                    ->getQuery()
+                    ->getResult();
+    }
+
     // /**
     //  * @return Fight[] Returns an array of Fight objects
     //  */

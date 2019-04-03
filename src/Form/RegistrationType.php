@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
@@ -29,6 +30,8 @@ class RegistrationType extends AbstractType
             ->add('lastName', TextType::class, $this->getConfig("Last Name", "Your Last Name"))
             ->add('pseudo', TextType::class, $this->getConfig("Pseudo", "Your Nickname"))
             ->add('hash', PasswordType::class, $this->getConfig("Password", "Pick a strong password please"))
+            ->add('confirmPassword', PasswordType::class, $this->getConfig("Password confirmation", "Confirm your password"))
+            ->add('image', FileType::class, $this->getConfig("Avatar", "Pick the picture you want", ["required" => false]))
         ;
     }
 

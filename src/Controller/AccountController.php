@@ -45,8 +45,16 @@ class AccountController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             $hash = $encoder->encodePassword($user, $user->getHash());
-
             $user->setHash($hash);
+
+            if(!is_null($user->getImage())) {
+
+                $file = $user->getImage();
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move($this->getParameter('upload_directory'), $fileName);
+                $user->setImage($fileName);
+            }
+            
             $manager->persist($user);
             $manager->flush();
             $this->addFlash('success', "Your account has been successfully created");

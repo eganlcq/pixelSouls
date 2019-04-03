@@ -35,6 +35,11 @@ class Fight
     private $opponent;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isWon;
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist() {
@@ -82,6 +87,18 @@ class Fight
     public function setOpponent(?Fighter $opponent): self
     {
         $this->opponent = $opponent;
+
+        return $this;
+    }
+
+    public function getIsWon(): ?bool
+    {
+        return $this->isWon;
+    }
+
+    public function setIsWon(bool $isWon): self
+    {
+        $this->isWon = $isWon;
 
         return $this;
     }

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Pixel Souls</a>
+    <a class="navbar-brand" href="{{ path('game') }}">Pixel Souls</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -7,17 +7,17 @@
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="{{ path('game') }}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Users</a>
+                <a class="nav-link" href="{{ path('fighters_index') }}">Characters</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
         {% if app.user %}
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropDownLink">
-                    <img src="{{ app.user.image }}" class="avatar avatar-mini" alt="Avatar de {{ app.user.fullName }}">
+                    <img src="http://127.0.0.1:8000/img/avatars/{{ app.user.image }}" class="avatar avatar-mini" alt="Avatar de {{ app.user.fullName }}">
                     {{ app.user.fullName }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="accountDropDownLink">
@@ -32,10 +32,10 @@
             </li>
         {% else %}
             <li class="nav-item">
-                <a href="{{ path('account_register') }}" class="nav-link">Log in</a>
+                <a href="{{ path('account_login') }}" class="nav-link">Login</a>
             </li>
             <li class="nav-item">
-                <a href="{{ path('account_login') }}" class="nav-link">Sign in</a>
+                <a href="{{ path('account_register') }}" class="nav-link">Register</a>
             </li>
         {% endif %}
         </ul>

@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
         $this->listFighter      = [];
         $this->listTypePost     = [];
 
-        $url = 'http://127.0.0.1:8000/img/anonym.png';
+        $url = 'anonym.png';
 
         // CREATION DES UTILISATEURS
         $this->createUser(
@@ -205,7 +205,7 @@ class AppFixtures extends Fixture
         // CREATION DES ARMES
         $this->createWeapon(
             "Dagger",
-            'http://127.0.0.1:8000/img/weapons/dagger.png',
+            'dagger.png',
             65,
             100,
             10,
@@ -213,7 +213,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Sword",
-            'http://127.0.0.1:8000/img/weapons/sword.png',
+            'sword.png',
             110,
             70,
             5,
@@ -221,7 +221,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Axe",
-            'http://127.0.0.1:8000/img/weapons/axe.png',
+            'axe.png',
             125,
             60,
             0,
@@ -229,7 +229,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Hammer",
-            'http://127.0.0.1:8000/img/weapons/hammer.png',
+            'hammer.png',
             115,
             65,
             0,
@@ -237,7 +237,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Greatsword",
-            'http://127.0.0.1:8000/img/weapons/greatsword.png',
+            'greatsword.png',
             140,
             50,
             0,
@@ -245,7 +245,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Greataxe",
-            'http://127.0.0.1:8000/img/weapons/greataxe.png',
+            'greataxe.png',
             190,
             30,
             0,
@@ -253,7 +253,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Greathammer",
-            'http://127.0.0.1:8000/img/weapons/greathammer.png',
+            'greathammer.png',
             170,
             40,
             0,
@@ -261,7 +261,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Curved sword",
-            'http://127.0.0.1:8000/img/weapons/curvedBlade.png',
+            'curvedBlade.png',
             90,
             90,
             40,
@@ -269,7 +269,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Estoc",
-            'http://127.0.0.1:8000/img/weapons/estoc.png',
+            'estoc.png',
             105,
             70,
             0,
@@ -277,7 +277,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Halberd",
-            'http://127.0.0.1:8000/img/weapons/halberd.png',
+            'halberd.png',
             125,
             60,
             30,
@@ -285,7 +285,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Katana",
-            'http://127.0.0.1:8000/img/weapons/katana.png',
+            'katana.png',
             115,
             70,
             30,
@@ -293,7 +293,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Scythe",
-            'http://127.0.0.1:8000/img/weapons/scythe.png',
+            'scythe.png',
             115,
             60,
             20,
@@ -301,7 +301,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Mace",
-            'http://127.0.0.1:8000/img/weapons/cudgel.png',
+            'cudgel.png',
             110,
             80,
             0,
@@ -309,7 +309,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Spear",
-            'http://127.0.0.1:8000/img/weapons/spear.png',
+            'spear.png',
             105,
             60,
             40,
@@ -317,7 +317,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Bo",
-            'http://127.0.0.1:8000/img/weapons/bo.png',
+            'bo.png',
             95,
             80,
             25,
@@ -325,7 +325,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Twin blades",
-            'http://127.0.0.1:8000/img/weapons/guandao.png',
+            'guandao.png',
             125,
             70,
             0,
@@ -333,7 +333,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Sai",
-            'http://127.0.0.1:8000/img/weapons/sai.png',
+            'sai.png',
             60,
             90,
             60,
@@ -341,7 +341,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Tonfa",
-            'http://127.0.0.1:8000/img/weapons/tonfa.png',
+            'tonfa.png',
             80,
             90,
             40,
@@ -349,7 +349,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Fork",
-            'http://127.0.0.1:8000/img/weapons/fork.png',
+            'fork.png',
             105,
             60,
             0,
@@ -357,7 +357,7 @@ class AppFixtures extends Fixture
         )
         ->createWeapon(
             "Frying pan",
-            'http://127.0.0.1:8000/img/weapons/pan.png',
+            'pan.png',
             90,
             80,
             0,
@@ -588,13 +588,6 @@ class AppFixtures extends Fixture
 
                 $fighter = $this->createFighter($user, $url);
 
-                // CREATION DES COMBATS
-                for($i = 1; $i < mt_rand(0, 10); $i++) {
-
-                    $fight = $this->createFight($fighter);
-                    $manager->persist($fight);
-                }
-
                 for($i = 1; $i < $this->faker->numberBetween(0, 10); $i++) {
 
                     $weapon = $this->listWeapon[$this->faker->numberBetween(0, count($this->listWeapon) - 1)];
@@ -610,6 +603,13 @@ class AppFixtures extends Fixture
                 }
                 
                 $manager->persist($fighter);
+            }
+
+            // CREATION DES COMBATS
+            for($i = 1; $i < mt_rand(50, 100); $i++) {
+
+                $fight = $this->createFight();
+                $manager->persist($fight);
             }
         }
 
@@ -766,12 +766,13 @@ class AppFixtures extends Fixture
         return $fighter;
     }
 
-    private function createFight($fighter) {
+    private function createFight() {
 
         $fight = new Fight();
 
-        $fight->setFighter($fighter)
-              ->setOpponent($this->listFighter[$this->faker->numberBetween(0, count($this->listFighter) - 1)]);
+        $fight->setFighter($this->listFighter[$this->faker->numberBetween(0, count($this->listFighter) - 1)])
+              ->setOpponent($this->listFighter[$this->faker->numberBetween(0, count($this->listFighter) - 1)])
+              ->setIsWon((bool) mt_rand(0, 1));
 
         return $fight;
     }

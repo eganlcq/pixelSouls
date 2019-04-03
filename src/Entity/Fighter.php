@@ -155,6 +155,11 @@ class Fighter
         return $this->owner->getImage();
     }
 
+    public function getFights() {
+
+        return array_merge($this->fightsGiven->toArray(), $this->fightsTaken->toArray());
+    }
+
     public function getId(): ?int
     {
         return $this->id;

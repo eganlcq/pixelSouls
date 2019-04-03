@@ -1,0 +1,139 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ fighter.name }}, character of {{ fighter.owner.pseudo }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card bg-light fixedHeight">
+                    <div class="card-header font-weight-bold text-center">
+                        {{ fighter.name }}
+                    </div>
+                    <div class="card-body text-center">
+                        <div>
+                            <span class="badge badge-dark w-50">Level</span><br>
+                            {{ fighter.level }}
+                        </div>
+                        <hr class="bg-secondary my-1 w-50">
+                        <div>
+                            <span class="badge badge-dark w-50">Strength</span><br>
+                            {{ fighter.strength }}
+                        </div>
+                        <hr class="bg-secondary my-1 w-50">
+                        <div>
+                            <span class="badge badge-dark w-50">Dexterity</span><br>
+                            {{ fighter.dexterity }}
+                        </div>
+                        <hr class="bg-secondary my-1 w-50">
+                        <div>
+                            <span class="badge badge-dark w-50">Vitality</span><br>
+                            {{ fighter.vitality }}
+                        </div>
+                        <hr class="bg-secondary my-1 w-50">
+                        <div>
+                            <span class="badge badge-dark w-50">Fights won</span><br>
+                            {{ fighter.totalWin }}
+                        </div>
+                        <hr class="bg-secondary my-1 w-50">
+                        <div>
+                            <span class="badge badge-dark w-50">Fights lost</span><br>
+                            {{ fighter.totalLoose }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card bg-light fixedHeight">
+                    <div class="card-header font-weight-bold text-center">
+                        {{ fighter.owner.pseudo }}
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="http://127.0.0.1:8000/img/avatars/{{ fighter.owner.image }}" alt="" class="avatar avatar-medium mb-2">
+                        <div>
+                            <span class="badge badge-dark w-50">Characters</span><br>
+                            {{ fighter.owner.fighters | length }}
+                        </div>
+                        <hr class="bg-secondary my-1 w-50">
+                        <div>
+                            <span class="badge badge-dark w-50">Total win</span><br>
+                            {{ fighter.owner.totalWin }}
+                        </div>
+                        <hr class="bg-secondary my-1 w-50">
+                        <div>
+                            <span class="badge badge-dark w-50">Total loose</span><br>
+                            {{ fighter.owner.totalLoose }}
+                        </div>
+                        <hr class="bg-secondary my-1 w-50">
+                        <div>
+                            <span class="badge badge-dark w-50">Score</span><br>
+                            {{ fighter.owner.score }}
+                        </div>
+                        <a href="#" class="btn btn-secondary mt-1">More informations</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="card bg-light fixedHeight">
+                    <div class="card-header font-weight-bold text-center">
+                        Fights
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="overflow-auto characterCard">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Opponent</th>
+                                        <th>Date</th>
+                                        <th>Win</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for fight in fights %}
+                                        <tr>
+                                            {% if fight.fighter.name == fighter.name %}
+                                                <td class="align-middle w-25">{{ fight.opponent.name }}</td>
+                                                <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
+                                                {% if fight.isWon %}
+                                                    <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>
+                                                {% else %}
+                                                    <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
+                                                {% endif %}
+                                            {% else %}
+                                                <td class="align-middle w-25">{{ fight.fighter.name }}</td>
+                                                <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
+                                                {% if fight.isWon %}
+                                                    <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
+                                                {% else %}
+                                                    <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>
+                                                {% endif %}
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12  mb-3">
+                <div class="card bg-light">
+                    <div class="card-header font-weight-bold text-center">
+                        Weapons
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="row">
+                            {% for weapon in weapons %}
+                                {% if weapon in fighter.weapons %}
+                                    <img src="http://127.0.0.1:8000/img/weapons/{{ weapon.image }}" alt="" class="w-100 h-100 col-md-2 col-sm-3 weapon">
+                                {% else %}
+                                    <img src="http://127.0.0.1:8000/img/blankWeapons/{{ weapon.image }}" alt="" class="w-100 h-100 col-md-2 col-sm-3 weapon">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

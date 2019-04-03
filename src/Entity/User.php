@@ -65,7 +65,12 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url(message="Invalid URL")
+     * @Assert\Image(
+     * maxSize = "20M",
+     * maxSizeMessage = "Your file is too large, please take a lighter one",
+     * mimeTypesMessage = "The file format is incorrect"
+     * )
+     * 
      */
     private $image;
 
@@ -134,8 +139,32 @@ class User implements UserInterface
 
         if(empty($this->image)) {
 
-            $this->image = 'http://127.0.0.1:8000/img/anonym.png';
+            $this->image = 'anonym.png';
         }
+    }
+
+    public function getTotalWin() {
+
+        $value = 0;
+
+        foreach($this->fighters as $fighter) {
+
+            $value += $fighter->getTotalWin();
+        }
+
+        return $value;
+    }
+
+    public function getTotalLoose() {
+
+        $value = 0;
+
+        foreach($this->fighters as $fighter) {
+
+            $value += $fighter->getTotalLoose();
+        }
+
+        return $value;
     }
     
     public function getFullName() {
@@ -215,12 +244,24 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getConfirmPassword(): ?string
+    {
+        return $this->confirmPassword;
+    }
+
+    public function setConfirmPassword(string $confirmPassword): self
+    {
+        $this->confirmPassword = $confirmPassword;
+
+        return $this;
+    }
+
+    public function getImage()
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage($image)
     {
         $this->image = $image;
 
