@@ -41,6 +41,11 @@
     max-height: 310px;
 }
 
+.fixed-mh {
+
+    max-height: 1000px;
+}
+
 .fixedHeight {
 
     height: 400px;

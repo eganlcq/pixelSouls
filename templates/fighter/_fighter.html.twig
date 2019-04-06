@@ -1,0 +1,35 @@
+<div class={{ class }}>
+    <div class="card bg-light mb-3">
+        <div class="card-header font-weight-bold">
+            <span class="float-left">{{ fighter.name }}</span>
+            <span class="float-right">Level {{ fighter.level }}</span>
+        </div>
+        <div class="card-body">
+            <div class="text-center">
+                <img src="/img/avatars/{{ fighter.owner.image }}" alt="" class="avatar avatar-medium">
+                <br>
+                <p class="mt-2">Character of <span class="font-weight-bold">{{ fighter.owner.pseudo }}</span></p>
+                <hr>
+                <div>
+                    <table class="mx-auto mb-3">
+                        <thead>
+                            <tr>
+                                <th class="px-2"><img src="/img/stats/heart.png" alt=""></th>
+                                <th class="px-2"><img src="/img/stats/sword_silver.png" alt=""></th>
+                                <th class="px-2"><img src="/img/stats/leaf.png" alt=""></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ fighter.vitality }}</td>
+                                <td>{{ fighter.strength }}</td>
+                                <td>{{ fighter.dexterity }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="{{ path('fighters_show', {'id': fighter.id}) }}" class="btn btn-secondary">More informations</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

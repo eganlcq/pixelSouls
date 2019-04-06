@@ -3,7 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AccountType;
+use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
+use App\Form\PasswordUpdateType;
+use App\Repository\FightRepository;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -65,6 +70,104 @@ class AccountController extends AbstractController
         return $this->render('account/registration.html.twig', [
 
             'form'  =>  $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/account/profile", name="account_profile")
+     */
+    public function profile(Request $request, ObjectManager $manager) {
+
+        $user = $this->getuser();
+        $img = $user->getImage();
+        $form = $this->createForm(AccountType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            if(!is_null($user->getImage())) {
+
+                $file = $user->getImage();
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move($this->getParameter('upload_directory'), $fileName);
+                $user->setImage($fileName);
+            }
+            else {
+
+                $user->setImage($img);
+            }
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('success', "Your profile has been successfully updated !");
+        }
+
+        return $this->render('account/profile.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/account/password-update", name="account_password")
+     */
+    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager) {
+
+        $user = $this->getUser();
+        $passwordUpdate = new PasswordUpdate();
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            if(!password_verify($passwordUpdate->getOldPassword(), $user->getHash())) {
+
+                $form->get('oldPassword')->addError(new FormError("Incorrect password given"));
+            }
+            else {
+
+                $newPassword = $passwordUpdate->getNewPassword();
+                $hash = $encoder->encodePassword($user, $newPassword);
+                $user->setHash($hash);
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash('success', "Your password has been successfully updated !");
+
+                return $this->redirectToRoute('game');
+            }
+        }
+
+        return $this->render('account/password.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/account", name="account_index")
+     */
+    public function myAccount(FightRepository $repo) {
+
+        $user = $this->getUser();
+        $fights = $repo->findFightsByUser($user->getId());
+
+        foreach($fights as $fight) {
+
+            foreach($user->getFighters() as $fighter) {
+
+                if($fighter == $fight->getOpponent()) {
+
+                    $tempFighter = $fight->getFighter();
+                    $fight->setFighter($fight->getOpponent());
+                    $fight->setOpponent($tempFighter);
+                    $fight->setIsWon(!$fight->getIsWon());
+                }
+            }
+        }
+
+        return $this->render('user/index.html.twig', [
+            'user' => $user,
+            'fights' => $fights
         ]);
     }
 }

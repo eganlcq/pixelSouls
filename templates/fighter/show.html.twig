@@ -69,7 +69,7 @@
                             <span class="badge badge-dark w-50">Score</span><br>
                             {{ fighter.owner.score }}
                         </div>
-                        <a href="#" class="btn btn-secondary mt-1">More informations</a>
+                        <a href="{{ path('user_show', {'id': fighter.owner.id}) }}" class="btn btn-secondary mt-1">More informations</a>
                     </div>
                 </div>
             </div>

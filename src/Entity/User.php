@@ -54,7 +54,6 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="You have to give us a password")
      * @Assert\Length(min=8, minMessage="Your password should have at least 8 characters, for your safety")
-     * @Assert\Length(max=20, maxMessage="Your password shouldn't have more than 20 characters")
      */
     private $hash;
 

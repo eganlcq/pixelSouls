@@ -21,11 +21,10 @@
                     {{ app.user.fullName }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="accountDropDownLink">
-                    <a href="#" class="dropdown-item">Create a character</a>
-                    <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">My account</a>
-                    <a href="#" class="dropdown-item">My characters</a>
-                    <a href="#" class="dropdown-item">Edit my profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ path('account_profile') }}" class="dropdown-item">Edit profile</a>
+                    <a href="{{ path('account_password') }}" class="dropdown-item">Edit password</a>
                     <div class="dropdown-divider"></div>
                     <a href="{{ path('account_logout') }}" class="dropdown-item">Logout</a>
                 </div>

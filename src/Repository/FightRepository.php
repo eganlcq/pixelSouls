@@ -30,6 +30,19 @@ class FightRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
+    public function findFightsByUser($id) {
+
+        return $this->createQueryBuilder('f')
+                    ->select('f')
+                    ->join('f.fighter', 'c')
+                    ->join('f.opponent', 'o')
+                    ->where('c.owner = ' . $id)
+                    ->orWhere('o.owner = ' . $id)
+                    ->orderBy('f.createdAt', 'ASC')
+                    ->getQuery()
+                    ->getResult();
+    }
+
     // /**
     //  * @return Fight[] Returns an array of Fight objects
     //  */
