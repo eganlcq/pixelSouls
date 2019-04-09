@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ResponseRepository")
@@ -24,6 +26,8 @@ class Response
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Your message must not be blank")
+     * @Assert\Length(min=20, minMessage="Your message must be longer")
      */
     private $content;
 
@@ -47,6 +51,7 @@ class Response
         if(empty($this->createdAt)) {
 
             $this->createdAt = new \DateTime();
+            $this->createdAt->setTimezone(new DateTimeZone('Europe/Brussels'));
         }
     }
 

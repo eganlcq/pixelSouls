@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeZone;
+use App\Entity\Response;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -21,6 +24,8 @@ class Post
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="You have to pick a subject title")
+     * @Assert\Length(min=8, minMessage="Your subject title must be longer")
      */
     private $title;
 
@@ -28,11 +33,6 @@ class Post
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $content;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
@@ -44,6 +44,12 @@ class Post
      * @ORM\OneToMany(targetEntity="App\Entity\Response", mappedBy="relatedPost", orphanRemoval=true)
      */
     private $responses;
+
+    /**
+     * @Assert\NotBlank(message="Your message must not be blank")
+     * @Assert\Length(min=20, minMessage="Your message must be longer")
+     */
+    private $firstMessage;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TypePost", inversedBy="relatedPosts")
@@ -64,6 +70,40 @@ class Post
         if(empty($this->createdAt)) {
 
             $this->createdAt = new \DateTime();
+            $this->createdAt->setTimezone(new DateTimeZone('Europe/Brussels'));
+        }
+    }
+
+    public function getLastMessageTime() {
+
+        $mostRecentMessage = new Response();
+        $mostRecentTime = 0;
+
+        foreach($this->responses as $message) {
+
+            $currentTime = \strtotime($message->getCreatedAt()->format('Y-m-d H:i:s'));
+            if($currentTime > $mostRecentTime) {
+
+                $mostRecentMessage = $message;
+                $mostRecentTime = $currentTime;
+            }
+        }
+
+        return $mostRecentMessage;
+    }
+
+    public function getPostLabel() {
+
+        switch($this->type->getName()) {
+
+            case('Discussion'):
+                return 'fa-comments';
+            case('Request'):
+                return 'fa-check-square';
+            case('Technical problems'):
+                return 'fa-skull-crossbones';
+            default:
+                return 'secondary';
         }
     }
 
@@ -116,6 +156,18 @@ class Post
     public function setWriter(?User $writer): self
     {
         $this->writer = $writer;
+
+        return $this;
+    }
+
+    public function getFirstMessage() {
+
+        return $this->firstMessage;
+    }
+
+    public function setFirstMessage(string $message) {
+
+        $this->firstMessage = $message;
 
         return $this;
     }

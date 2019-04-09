@@ -50,3 +50,34 @@
 
     height: 400px;
 }
+
+.h-row {
+
+    height: 5px;
+}
+
+.fas.fa-check-square {
+
+    color: #00bc8c;
+}
+
+.fas.fa-comments {
+
+    color: #375a7f;
+}
+
+.fas.fa-skull-crossbones {
+
+    color: #E74C3C;
+}
+
+a {
+
+    color: white !important;
+}
+
+.no-margin {
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}

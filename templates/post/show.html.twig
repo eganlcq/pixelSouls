@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <hr class="bg-secondary">
+                <p class="d-inline ml-3">Subject : <em>{{ post.title }}</em></p>
+                <span>&nbsp;</span>
+                <i class="fas {{ post.postLabel }}"></i>
+                <hr class="bg-secondary">
+                <div class="overflow-auto fixed-mh">
+                    {% for message in messages %}
+                        <div class="bg-light mb-3 pb-1 px-3">
+                            <div class="row align-items-center no-margin">
+                                <div class="col-md-2">
+                                    <img src="/img/avatars/{{ message.writer.image }}" class="avatar avatar-medium my-3" alt="">
+                                </div>
+                                <div class="col-md-10">
+                                    <span>{{ message.writer.pseudo }}</span>
+                                    <br>
+                                    <em>{{ message.createdAt | date("d/m/Y G:i:s") }}</em>
+                                </div>
+                            </div>
+                            <hr class="bg-primary mt-0">
+                            <p class="mx-3">{{ message.content }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr class="bg-secondary">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-success">Send &nbsp; <i class="fas fa-check"></i></button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

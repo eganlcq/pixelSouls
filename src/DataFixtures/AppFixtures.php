@@ -692,7 +692,6 @@ class AppFixtures extends Fixture
         $post = new Post();
 
         $post->setTitle($this->faker->sentence())
-             ->setContent($this->faker->paragraph())
              ->setWriter($user)
              ->setType($this->listTypePost[$this->faker->numberBetween(0, count($this->listTypePost) - 1)]);
 

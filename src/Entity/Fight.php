@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,6 +48,7 @@ class Fight
         if(empty($this->createdAt)) {
 
             $this->createdAt = new \DateTime();
+            $this->createdAt->setTimezone(new DateTimeZone('Europe/Brussels'));
         }
     }
 

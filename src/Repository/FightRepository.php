@@ -25,7 +25,7 @@ class FightRepository extends ServiceEntityRepository
                     ->select('f')
                     ->where('f.fighter = ' . $id)
                     ->orWhere('f.opponent = ' . $id)
-                    ->orderBy('f.createdAt', 'ASC')
+                    ->orderBy('f.createdAt', 'DESC')
                     ->getQuery()
                     ->getResult();
     }
@@ -38,7 +38,7 @@ class FightRepository extends ServiceEntityRepository
                     ->join('f.opponent', 'o')
                     ->where('c.owner = ' . $id)
                     ->orWhere('o.owner = ' . $id)
-                    ->orderBy('f.createdAt', 'ASC')
+                    ->orderBy('f.createdAt', 'DESC')
                     ->getQuery()
                     ->getResult();
     }

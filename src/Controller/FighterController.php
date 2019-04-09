@@ -7,12 +7,14 @@ use App\Repository\FightRepository;
 use App\Repository\WeaponRepository;
 use App\Repository\FighterRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FighterController extends AbstractController
 {
     /**
      * @Route("/fighters", name="fighters_index")
+     * @IsGranted("ROLE_USER")
      */
     public function index(FighterRepository $repo)
     {
@@ -25,6 +27,7 @@ class FighterController extends AbstractController
 
     /**
      * @Route("/fighters/{id}", name="fighters_show")
+     * @IsGranted("ROLE_USER")
      */
     public function show(Fighter $fighter, WeaponRepository $Wrepo, FightRepository $Frepo) {
 

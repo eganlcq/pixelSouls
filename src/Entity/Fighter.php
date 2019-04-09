@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FighterRepository")
@@ -123,11 +124,14 @@ class Fighter
         if(empty($this->vitality)) $this->vitality          = 100;
         if(empty($this->level)) $this->level                = 1;
         if(empty($this->experience)) $this->experience      = 0;
-        if(empty($this->createdAt)) $this->createdAt        = new \DateTime();
         if(empty($this->defenseWon)) $this->defenseWon      = 0;
         if(empty($this->defenseLost)) $this->defenseLost    = 0;
         if(empty($this->attackWon)) $this->attackWon        = 0;
         if(empty($this->attackLost)) $this->attackLost      = 0;
+        if(empty($this->createdAt)) {
+            $this->createdAt        = new \DateTime();
+            $this->createdAt->setTimezone(new DateTimeZone('Europe/Brussels'));
+        }
     }
 
     public function getExperienceNeeded() {
