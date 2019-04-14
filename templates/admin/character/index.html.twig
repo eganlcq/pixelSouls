@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for character in characters %}
+                {% for character in pagination.data %}
                     <tr>
                         <td class="text-center align-middle">{{ character.id }}</td>
                         <td class="text-center align-middle">{{ character.name }}</td>
@@ -47,5 +47,6 @@
                 {% endfor %}
             </tbody>
         </table>
+        {{ pagination.display() }}
     </div>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Form\AdminPostType;
+use App\Service\Pagination;
 use App\Repository\PostRepository;
 use App\Repository\ResponseRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +16,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminPostController extends AbstractController
 {
     /**
-     * @Route("/admin/posts", name="admin_posts_index")
+     * @Route("/admin/posts/{page<\d+>?1}", name="admin_posts_index")
      */
-    public function index(PostRepository $repo)
+    public function index(PostRepository $repo, $page, Pagination $pagination)
     {
+        $pagination->setEntityClass(Post::class)
+                   ->setCurrentPage($page);
         return $this->render('admin/post/index.html.twig', [
-            'posts' => $repo->findAll()
+            'pagination' => $pagination
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Fighter;
+use App\Service\Pagination;
 use App\Repository\FighterRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -12,12 +13,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminCharacterController extends AbstractController
 {
     /**
-     * @Route("/admin/characters", name="admin_characters_index")
+     * @Route("/admin/characters/{page<\d+>?1}", name="admin_characters_index")
      */
-    public function index(FighterRepository $repo)
+    public function index(FighterRepository $repo, $page, Pagination $pagination)
     {
+        $pagination->setEntityClass(Fighter::class)
+                   ->setCurrentPage($page);
         return $this->render('admin/character/index.html.twig', [
-            'characters' => $repo->findAll()
+            'pagination' => $pagination
         ]);
     }
 

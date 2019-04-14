@@ -92,3 +92,18 @@ a {
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
+
+.pagination li a {
+    background:#375a7f;
+    color:#fff
+}
+
+.pagination li.page-item.active a,.pagination li a:hover {
+    background:#3498db;
+    color:#fff
+}
+
+.pagination li.page-item.disabled a {
+    background:#303e4f;
+    color:#fff
+}
