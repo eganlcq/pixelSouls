@@ -7,6 +7,7 @@ use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
+use App\Repository\RoleRepository;
 use App\Repository\FightRepository;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +42,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/register", name="account_register")
      */
-    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder) {
+    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, RoleRepository $repo) {
 
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
@@ -50,6 +51,8 @@ class AccountController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
 
+            $role = $repo->findOneByName('ROLE_USER');
+            $user->addCurrentRole($role);
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user->setHash($hash);
 

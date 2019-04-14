@@ -1,0 +1,51 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Characters administration{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <hr class="bg-secondary">
+        <h2 class="text-center">Characters</h2>
+        <hr class="bg-secondary">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">STR</th>
+                    <th class="text-center">DEX</th>
+                    <th class="text-center">VIT</th>
+                    <th class="text-center">LVL</th>
+                    <th class="text-center">EXP</th>
+                    <th class="text-center">Creation date</th>
+                    <th class="text-center">Total win</th>
+                    <th class="text-center">Total loose</th>
+                    <th class="text-center">Total fights</th>
+                    <th>Owner</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for character in characters %}
+                    <tr>
+                        <td class="text-center align-middle">{{ character.id }}</td>
+                        <td class="text-center align-middle">{{ character.name }}</td>
+                        <td class="text-center align-middle">{{ character.strength }}</td>
+                        <td class="text-center align-middle">{{ character.dexterity }}</td>
+                        <td class="text-center align-middle">{{ character.vitality }}</td>
+                        <td class="text-center align-middle">{{ character.level }}</td>
+                        <td class="text-center align-middle">{{ character.experience }}</td>
+                        <td class="text-center align-middle">{{ character.createdAt | date("d/m/Y") }}</td>
+                        <td class="text-center align-middle">{{ character.totalWin }}</td>
+                        <td class="text-center align-middle">{{ character.totalLoose }}</td>
+                        <td class="text-center align-middle">{{ character.totalFights }}</td>
+                        <td class="align-middle"><img src="/img/avatars/{{ character.owner.image }}" alt="" class="avatar avatar-micro mr-2">{{ character.owner.pseudo }}</td>
+                        <td class="text-center">
+                            <a href="{{ path('admin_characters_delete', { 'id': character.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

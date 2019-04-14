@@ -10,12 +10,45 @@
                 <div class="bg-light py-3 px-3">
                     <h1>Edit profile</h1>
 
-                    {{ form_start(form) }}
-                    {{ form_widget(form) }}
+                    {{ form_start(form, {'attr': {'id': 'form_admin_user'}}) }}
+                    {{ form_label(form.firstName) }}
+                    {{ form_widget(form.firstName) }}
+                    <br>
+                    {{ form_label(form.lastName) }}
+                    {{ form_widget(form.lastName) }}
+                    <br>
+                    {{ form_label(form.pseudo) }}
+                    {{ form_widget(form.pseudo) }}
+                    <br>
+                    {{ form_label(form.image) }}
+                    <div class="row">
+                        <div class="col-6">{{ form_widget(form.image) }}</div>
+                        <div class="col-6"><img id="img" src="/img/avatars/{{ app.user.image }}" alt="" class="avatar avatar-form"></div>
+                    </div>
+                    <br>
                     <button type="submit" class="btn btn-success">Confirm</button>
                     {{ form_end(form) }}
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function filePreview(input) {
+
+            if(input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $("#img").attr("src", e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#account_image").change(function() {
+            filePreview(this);
+        })
+    </script>
 {% endblock %}

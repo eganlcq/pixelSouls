@@ -1,0 +1,23 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Edition of comment n°{{ message.id }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <hr class="bg-secondary">
+        <h2 class="text-center">Edition of comment n°{{ message.id }}</h2>
+        <hr class="bg-secondary">
+        <div class="alert bg-light">
+            <strong>Related post : </strong>{{ message.relatedPost.title }} <br>
+            <strong>Writer : </strong>{{ message.writer.pseudo }}<img src="/img/avatars/{{ message.writer.image }}" alt="" class="avatar avatar-micro ml-2"> <br>
+            <strong>Creation date : </strong>{{ message.createdAt | date('d/m/Y G:m:s') }}
+        </div>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-check"></i>
+            Register modifications
+        </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

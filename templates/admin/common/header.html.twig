@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <a class="navbar-brand" href="{{ path('game') }}">Pixel Souls</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -7,16 +7,28 @@
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('game') }}">Home</a>
+                <a class="nav-link" href="#"><i class="fas fa-chart-line"></i>&nbsp;Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('fighters_index') }}">Characters</a>
+                <a class="nav-link" href="{{ path('admin_users_index') }}"><i class="fas fa-users"></i>&nbsp;Users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('post_index') }}">Forum</a>
+                <a class="nav-link" href="{{ path('admin_characters_index') }}"><i class="fas fa-hand-rock"></i>&nbsp;Characters</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin_posts_index') }}"><i class="fas fa-folder"></i>&nbsp;Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin_comments_index') }}"><i class="fas fa-comment"></i>&nbsp;Comments</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a href="{{ path('game') }}" target="_blank" class="nav-link">
+                    <i class="far fa-eye"></i>
+                    Check website
+                </a>
+            </li>
         {% if app.user %}
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropDownLink">
@@ -24,20 +36,8 @@
                     {{ app.user.pseudo }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="accountDropDownLink">
-                    <a href="{{ path('account_index') }}" class="dropdown-item">My account</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="{{ path('account_profile') }}" class="dropdown-item">Edit profile</a>
-                    <a href="{{ path('account_password') }}" class="dropdown-item">Edit password</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="{{ path('account_logout') }}" class="dropdown-item">Logout</a>
+                    <a href="{{ path('admin_account_logout') }}" class="dropdown-item">Logout</a>
                 </div>
-            </li>
-        {% else %}
-            <li class="nav-item">
-                <a href="{{ path('account_login') }}" class="nav-link">Login</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ path('account_register') }}" class="nav-link">Register</a>
             </li>
         {% endif %}
         </ul>

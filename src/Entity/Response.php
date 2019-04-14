@@ -27,7 +27,7 @@ class Response
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Your message must not be blank")
-     * @Assert\Length(min=20, minMessage="Your message must be longer")
+     * @Assert\Length(min=2, minMessage="Your message must be longer")
      */
     private $content;
 

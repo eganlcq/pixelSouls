@@ -11,15 +11,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class AccountType extends ApplicationType
+class AdminUserType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', TextType::class, $this->getConfig("First Name", "Your First Name"))
-            ->add('lastName', TextType::class, $this->getConfig("Last Name", "Your Last Name"))
-            ->add('pseudo', TextType::class, $this->getConfig("Pseudo", "Your Nickname"))
-            ->add('image', FileType::class, $this->getConfig("Avatar", "", ["required" => false]))
+            ->add('firstName', TextType::class, $this->getConfig("First Name", "First name of the user"))
+            ->add('lastName', TextType::class, $this->getConfig("Last Name", "Last name of the user"))
+            ->add('pseudo', TextType::class, $this->getConfig("Pseudo", "Nickname of the user"))
+            ->add('image', FileType::class, $this->getConfig("Avatar", "Picture of the user"))
         ;
 
         $builder->get('image')->addModelTransformer(new CallbackTransformer(

@@ -159,6 +159,11 @@ class Fighter
         return $this->owner->getImage();
     }
 
+    public function getTotalFights() {
+
+        return sizeof($this->fightsGiven) + sizeof($this->fightsTaken);
+    }
+
     public function getFights() {
 
         return array_merge($this->fightsGiven->toArray(), $this->fightsTaken->toArray());

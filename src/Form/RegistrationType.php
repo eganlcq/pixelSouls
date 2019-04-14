@@ -22,7 +22,7 @@ class RegistrationType extends ApplicationType
             ->add('pseudo', TextType::class, $this->getConfig("Pseudo", "Your Nickname"))
             ->add('hash', PasswordType::class, $this->getConfig("Password", "Pick a strong password please"))
             ->add('confirmPassword', PasswordType::class, $this->getConfig("Password confirmation", "Confirm your password"))
-            ->add('image', FileType::class, $this->getConfig("Avatar", "Pick the picture you want", ["required" => false]))
+            ->add('image', FileType::class, $this->getConfig("Avatar (optionnal)", "", ["required" => false]))
         ;
     }
 

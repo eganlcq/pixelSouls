@@ -1,0 +1,90 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Edition of User n°{{ user.id }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <hr class="bg-secondary">
+                <h2 class="text-center">Edition of user n°{{ user.id }}</h2>
+                <hr class="bg-secondary">
+                {{ form_start(form, {'attr': {'id': 'form_admin_user'}}) }}
+                {{ form_label(form.firstName) }}
+                {{ form_widget(form.firstName) }}
+                <br>
+                {{ form_label(form.lastName) }}
+                {{ form_widget(form.lastName) }}
+                <br>
+                {{ form_label(form.pseudo) }}
+                {{ form_widget(form.pseudo) }}
+                <br>
+                {{ form_label(form.image) }}
+                <div class="row">
+                    <div class="col-6">{{ form_widget(form.image) }}</div>
+                    <div class="col-6"><img id="img" src="/img/avatars/{{ user.image }}" alt="" class="avatar avatar-form"></div>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i>
+                    Register modifications
+                </button>
+                {{ form_end(form) }}
+            </div>
+            <div class="col-md-6">
+                <hr class="bg-secondary">
+                <h2 class="text-center">Characters</h2>
+                <hr class="bg-secondary">
+                {% if user.fighters | length > 0 %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Creation date</th>
+                                <th>Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for character in user.fighters %}
+                                <tr>
+                                    <td class="text-center align-middle">{{ character.id }}</td>
+                                    <td class="text-center align-middle">{{ character.createdAt | date('d/m/Y') }}</td>
+                                    <td class="align-middle">{{ character.name }}</td>
+                                    <td>
+                                        <a href="{{ path('admin_characters_delete', { 'id': character.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-warning">
+                        <p>
+                            User n°<strong>{{ user.id }}</strong> doesn't have any characters !
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function filePreview(input) {
+
+            if(input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $("#img").attr("src", e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#admin_user_image").change(function() {
+            filePreview(this);
+        })
+    </script>
+{% endblock %}

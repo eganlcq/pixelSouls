@@ -1,0 +1,71 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Post n°{{ post.id }} edition{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <hr class="bg-secondary">
+        <h2 class="text-center">Edition of post n°{{ post.id }}</h2>
+        <hr class="bg-secondary">
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col">
+                <div class="card bg-light">
+                    <div class="card-header">
+                        <h4 class="card-title text-center">Edit post ?</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ form_widget(form) }}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                            Register modifications
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-light">
+                    <div class="card-header">
+                        <h4 class="card-title text-center">Comments</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if post.responses | length > 0 %}
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">ID</th>
+                                        <th class="text-center">Creation date</th>
+                                        <th class="text-center">Writer</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for message in messages %}
+                                        <tr>
+                                            <td class="text-center align-middle">{{ message.id }}</td>
+                                            <td class="text-center align-middle">{{ message.createdAt | date('d/m/Y G:i:s') }}</td>
+                                            <td class="text-center align-middle"><img src="/img/avatars/{{ message.writer.image }}" alt="" class="avatar avatar-micro mr-2">{{ message.writer.pseudo }}</td>
+                                            <td>
+                                                <a href="{{ path('admin_comments_edit', { 'id': message.id }) }}" class="btn btn-primary">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="{{ path('admin_comments_delete', { 'id': message.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                <p>
+                                    Post n°<strong>{{ post.id }}</strong> doesn't have any messages !
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

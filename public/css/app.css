@@ -20,9 +20,20 @@
     max-height: 40px;
 }
 
+.avatar.avatar-form {
+
+    max-width:38px;
+    max-height:38px;
+}
+
 .avatar.avatar-mini {
     max-width:24px;
     max-height:24px
+}
+
+.avatar.avatar-micro {
+    max-width:16px;
+    max-height:16px
 }
 
 .statsTable {

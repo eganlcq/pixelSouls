@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Posts administration{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <hr class="bg-secondary">
+        <h2 class="text-center">Posts</h2>
+        <hr class="bg-secondary">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th>Title</th>
+                    <th class="text-center">Creation date</th>
+                    <th>Writer</th>
+                    <th class="text-center">NB MSG</th>
+                    <th class="text-center">Type</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <td class="text-center align-middle">{{ post.id }}</td>
+                        <td class="align-middle">{{ post.title }}</td>
+                        <td class="text-center align-middle">{{ post.createdAt | date("d/m/Y G:m:s") }}</td>
+                        <td class="align-middle"><img src="/img/avatars/{{ post.writer.image }}" alt="" class="avatar avatar-micro mr-2">{{ post.writer.pseudo }}</td>
+                        <td class="text-center align-middle">{{ post.responses | length }}</td>
+                        <td class="text-center align-middle"><i class="fas {{ post.postlabel }}"></i></td>
+                        <td class="text-center align-middle">
+                            <a href="{{ path('admin_posts_edit', { 'id': post.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                            <a href="{{ path('admin_posts_delete', { 'id': post.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
