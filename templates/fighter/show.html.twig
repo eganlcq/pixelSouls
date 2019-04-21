@@ -79,40 +79,48 @@
                         Fights
                     </div>
                     <div class="card-body text-center">
-                        <div class="overflow-auto characterCard">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Opponent</th>
-                                        <th>Date</th>
-                                        <th>Win</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for fight in fights %}
+                        {% if fights | length > 0 %}
+                            <div class="overflow-auto characterCard">
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            {% if fight.fighter.name == fighter.name %}
-                                                <td class="align-middle w-25">{{ fight.opponent.name }}</td>
-                                                <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
-                                                {% if fight.isWon %}
-                                                    <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>
-                                                {% else %}
-                                                    <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
-                                                {% endif %}
-                                            {% else %}
-                                                <td class="align-middle w-25">{{ fight.fighter.name }}</td>
-                                                <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
-                                                {% if fight.isWon %}
-                                                    <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
-                                                {% else %}
-                                                    <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>
-                                                {% endif %}
-                                            {% endif %}
+                                            <th>Opponent</th>
+                                            <th>Date</th>
+                                            <th>Win</th>
                                         </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        {% for fight in fights %}
+                                            <tr>
+                                                {% if fight.fighter.name == fighter.name %}
+                                                    <td class="align-middle w-25">{{ fight.opponent.name }}</td>
+                                                    <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
+                                                    {% if fight.isWon %}
+                                                        <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>
+                                                    {% else %}
+                                                        <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <td class="align-middle w-25">{{ fight.fighter.name }}</td>
+                                                    <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
+                                                    {% if fight.isWon %}
+                                                        <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
+                                                    {% else %}
+                                                        <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning text-center">
+                                <p>
+                                    <strong>{{ fighter.name }}</strong> did not made any fight yet !
+                                </p>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

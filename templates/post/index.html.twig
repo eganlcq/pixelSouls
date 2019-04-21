@@ -7,34 +7,39 @@
         <hr class="bg-secondary">
         <h2 class="text-center">Forum</h2>
         <hr class="bg-secondary">
-        <div class="overflow-auto fixed-mh">
-            <table class="table table-striped table-sm">
-                <thead class="thead-dark">
+        <table class="table table-striped table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Subject</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th>NB</th>
+                    <th>Last message</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in pagination.data %}
                     <tr>
-                        <th>Subject</th>
-                        <th>Author</th>
-                        <th>Date</th>
-                        <th>NB</th>
-                        <th>Last message</th>
+                        <td>
+                            <i class="fas {{ post.postLabel }}"></i>
+                            <span>&nbsp;</span>
+                            <a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a>
+                        </td>
+                        <td>{{ post.writer.pseudo }}</td>
+                        <td>{{ post.createdAt | date("d/m/Y") }}</td>
+                        <td>{{ post.responses | length }}</td>
+                        <td>{{ post.lastMessageTime.createdAt | date("d/m/Y G:i:s") }}</td>
+                        <td>
+                            {% if post.writer is same as(app.user) %}
+                                <a href="{{ path('post_delete', {'id': post.id}) }}"><i class="fas fa-times"></i></a>
+                            {% endif %}
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for post in posts %}
-                        <tr>
-                            <td>
-                                <i class="fas {{ post.postLabel }}"></i>
-                                <span>&nbsp;</span>
-                                <a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a>
-                            </td>
-                            <td>{{ post.writer.pseudo }}</td>
-                            <td>{{ post.createdAt | date("d/m/Y") }}</td>
-                            <td>{{ post.responses | length }}</td>
-                            <td>{{ post.lastMessageTime.createdAt | date("d/m/Y G:i:s") }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ pagination.display() }}
         <div class="row">
             <div class="col-6">
                 <hr class="bg-secondary">

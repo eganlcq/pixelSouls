@@ -44,6 +44,11 @@ class Response
     private $relatedPost;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist() {
@@ -53,6 +58,7 @@ class Response
             $this->createdAt = new \DateTime();
             $this->createdAt->setTimezone(new DateTimeZone('Europe/Brussels'));
         }
+        if(empty($this->isActive)) $this->isActive = true;
     }
 
     public function getId(): ?int
@@ -104,6 +110,18 @@ class Response
     public function setRelatedPost(?Post $relatedPost): self
     {
         $this->relatedPost = $relatedPost;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

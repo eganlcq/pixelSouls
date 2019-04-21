@@ -14,6 +14,7 @@
                     <th class="w-50">Content</th>
                     <th class="text-center">Creation date</th>
                     <th>Writer</th>
+                    <th class="text-center">Activated</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -25,8 +26,19 @@
                         <td class="text-center align-middle">{{ message.createdAt | date("d/m/Y G:m:s") }}</td>
                         <td class="align-middle"><img src="/img/avatars/{{ message.writer.image }}" alt="" class="avatar avatar-micro mr-2">{{ message.writer.pseudo }}</td>
                         <td class="text-center align-middle">
+                            {% if message.isActive %}
+                                <i class="fas fa-check colored"></i>
+                            {% else %}
+                                <i class="fas fa-times colored"></i>
+                            {% endif %}
+                        </td>
+                        <td class="text-center align-middle">
                             <a href="{{ path('admin_comments_edit', { 'id': message.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                            <a href="{{ path('admin_comments_delete', { 'id': message.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            {% if message.isActive %}
+                                <a href="{{ path('admin_comments_delete', { 'id': message.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            {% else %}
+                                <a href="{{ path('admin_comments_activate', { 'id': message.id }) }}" class="btn btn-success"><i class="fas fa-redo"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

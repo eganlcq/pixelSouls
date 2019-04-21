@@ -10,25 +10,36 @@
                 <p class="d-inline ml-3">Subject : <em>{{ post.title }}</em></p>
                 <span>&nbsp;</span>
                 <i class="fas {{ post.postLabel }}"></i>
+                {% if post.writer is same as(app.user) %}
+                    <a href="{{ path('post_delete', {'id': post.id}) }}" class="float-right mr-3"><i class="fas fa-times"></i></a>
+                {% endif %}
                 <hr class="bg-secondary">
-                <div class="overflow-auto fixed-mh">
-                    {% for message in messages %}
-                        <div class="bg-light mb-3 pb-1 px-3">
-                            <div class="row align-items-center no-margin">
-                                <div class="col-md-2">
-                                    <img src="/img/avatars/{{ message.writer.image }}" class="avatar avatar-medium my-3" alt="">
-                                </div>
-                                <div class="col-md-10">
-                                    <span>{{ message.writer.pseudo }}</span>
-                                    <br>
-                                    <em>{{ message.createdAt | date("d/m/Y G:i:s") }}</em>
-                                </div>
+                {% for message in pagination.data %}
+                    <div class="bg-light mb-3 pb-1 px-3">
+                        {% if (message.writer is same as(app.user)) and (message.isActive) %}
+                            <a href="{{ path('comments_delete', {'id': message.id}) }}" class="float-right mt-2"><i class="fas fa-times"></i></a>
+                        {% endif %}
+                        <div class="row align-items-center no-margin">
+                            <div class="col-md-2">
+                                <img src="/img/avatars/{{ message.writer.image }}" class="avatar avatar-medium my-3" alt="">
                             </div>
-                            <hr class="bg-primary mt-0">
-                            <p class="mx-3">{{ message.content }}</p>
+                            <div class="col-md-10">
+                                <span>{{ message.writer.pseudo }}</span>
+                                <br>
+                                <em>{{ message.createdAt | date("d/m/Y G:i:s") }}</em>
+                            </div>
                         </div>
-                    {% endfor %}
-                </div>
+                        <hr class="bg-primary mt-0">
+                        <p class="mx-3">
+                            {% if message.isActive %}
+                                {{ message.content }}
+                            {% else %}
+                                <em>[Deleted message]</em>
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+                {{ pagination.display({'post': post}) }}
                 <hr class="bg-secondary">
                 {{ form_start(form) }}
                 {{ form_widget(form) }}

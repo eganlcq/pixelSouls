@@ -5,10 +5,11 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            {% for fighter in fighters %}
+            {% for fighter in pagination.data %}
                 {% set class = "col-lg-3 col-md-4 col-sm-6" %}
                 {% include "fighter/_fighter.html.twig" %}
             {% endfor %}
         </div>
+        {{ pagination.display() }}
     </div>
 {% endblock %}

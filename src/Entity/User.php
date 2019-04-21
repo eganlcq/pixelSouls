@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use App\Service\RandomString;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -15,6 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(
  *  fields={"pseudo"},
  *  message="This nickname is already used"
+ * )
+ * @UniqueEntity(
+ *  fields={"email"},
+ *  message="This email is already used"
  * )
  */
 class User implements UserInterface
@@ -113,6 +118,22 @@ class User implements UserInterface
      */
     private $fighters;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="Email invalide")
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
         $this->favoriteUsers = new ArrayCollection();
@@ -135,10 +156,17 @@ class User implements UserInterface
 
             $this->score = 1000;
         }
+        if(empty($this->token)) {
 
+            $this->token = RandomString::Generate($this->pseudo);
+        }
         if(empty($this->image)) {
 
             $this->image = 'anonym.png';
+        }
+        if(empty($this->isActive)) {
+
+            $this->isActive = false;
         }
     }
 
@@ -189,7 +217,7 @@ class User implements UserInterface
 
     public function getUsername() {
 
-        return $this->pseudo;
+        return $this->email;
     }
 
     public function eraseCredentials() {}
@@ -482,6 +510,42 @@ class User implements UserInterface
                 $fighter->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

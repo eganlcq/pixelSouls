@@ -28,6 +28,9 @@
                         </tbody>
                     </table>
                     <a href="{{ path('fighters_show', {'id': fighter.id}) }}" class="btn btn-secondary">More informations</a>
+                    {% if fighter.owner is same as(app.user) %}
+                            <a href="{{ path('fighters_delete', {'id': fighter.id}) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                    {% endif %}
                 </div>
             </div>
         </div>

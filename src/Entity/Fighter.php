@@ -106,6 +106,11 @@ class Fighter
      */
     private $armors;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
         $this->fightsGiven = new ArrayCollection();
@@ -132,6 +137,7 @@ class Fighter
             $this->createdAt        = new \DateTime();
             $this->createdAt->setTimezone(new DateTimeZone('Europe/Brussels'));
         }
+        if(empty($this->isActive)) $this->isActive = true;
     }
 
     public function getExperienceNeeded() {
@@ -444,6 +450,18 @@ class Fighter
             $this->armors->removeElement($armor);
             $armor->removeOwner($this);
         }
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

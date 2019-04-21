@@ -53,7 +53,20 @@ class AdminCommentsController extends AbstractController
     public function delete(Response $message, ObjectManager $manager, Request $request) {
 
         $this->addFlash('success', "Comment n°<strong>{$message->getId()}</strong> was successfully deleted !");
-        $manager->remove($message);
+        $message->setIsActive(false);
+        $manager->persist($message);
+        $manager->flush();
+        return $this->redirect($request->server->get('HTTP_REFERER'));
+    }
+
+    /**
+     * @Route("/admin/comments/{id}/activate", name="admin_comments_activate")
+     */
+    public function activate(Response $message, ObjectManager $manager, Request $request) {
+
+        $this->addFlash('success', "Comment n°<strong>{$message->getId()}</strong> was successfully reactivated !");
+        $message->setIsActive(true);
+        $manager->persist($message);
         $manager->flush();
         return $this->redirect($request->server->get('HTTP_REFERER'));
     }

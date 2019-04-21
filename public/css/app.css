@@ -82,6 +82,16 @@
     color: #E74C3C;
 }
 
+.fas.fa-check.colored {
+
+    color: green;
+}
+
+.fas.fa-times.colored {
+
+    color: red;
+}
+
 a {
 
     color: white !important;

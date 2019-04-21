@@ -16,6 +16,7 @@
                     <th>Writer</th>
                     <th class="text-center">NB MSG</th>
                     <th class="text-center">Type</th>
+                    <th class="text-center">Activated</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -29,8 +30,19 @@
                         <td class="text-center align-middle">{{ post.responses | length }}</td>
                         <td class="text-center align-middle"><i class="fas {{ post.postlabel }}"></i></td>
                         <td class="text-center align-middle">
+                            {% if post.isActive %}
+                                <i class="fas fa-check colored"></i>
+                            {% else %}
+                                <i class="fas fa-times colored"></i>
+                            {% endif %}
+                        </td>
+                        <td class="text-center align-middle">
                             <a href="{{ path('admin_posts_edit', { 'id': post.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                            <a href="{{ path('admin_posts_delete', { 'id': post.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            {% if post.isActive %}
+                                <a href="{{ path('admin_posts_delete', { 'id': post.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            {% else %}
+                                <a href="{{ path('admin_posts_activate', { 'id': post.id }) }}" class="btn btn-success"><i class="fas fa-redo"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

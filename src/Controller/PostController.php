@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Entity\Response;
 use App\Form\ResponseType;
+use App\Service\Pagination;
 use App\Repository\PostRepository;
 use App\Repository\ResponseRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,12 +18,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PostController extends AbstractController
 {
     /**
-     * @Route("/post", name="post_index")
+     * @Route("/posts/{page<\d+>?1}", name="post_index")
      * @IsGranted("ROLE_USER")
      */
-    public function index(PostRepository $repo, Request $request, ObjectManager $manager)
+    public function index(PostRepository $repo, Request $request, ObjectManager $manager, $page, Pagination $pagination)
     {
-        $posts = $repo->findOrderedPosts();
+        $pagination->setEntityClass(Post::class)
+                   ->setCurrentPage($page)
+                   ->setLimit(20)
+                   ->setCritera(['isActive' => true])
+                   ->setOrderBy([
+                       'createdAt' => 'DESC'
+                   ]);
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -47,18 +54,23 @@ class PostController extends AbstractController
         }
         
         return $this->render('post/index.html.twig', [
-            'posts' => $posts,
+            'pagination' => $pagination,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/post/{id}", name="post_show")
+     * @Route("/post/{id}/{page<\d+>?1}", name="post_show")
      * @IsGranted("ROLE_USER")
      */
-    public function show(ResponseRepository $repo, Post $post, Request $request, ObjectManager $manager) {
+    public function show(ResponseRepository $repo, Post $post, Request $request, ObjectManager $manager, $page, Pagination $pagination) {
 
-        $messages = $repo->findOrderedMessages($post->getId());
+        $pagination->setEntityClass(Response::class)
+                   ->setCurrentPage($page)
+                   ->setLimit(20)
+                   ->setCritera(['relatedPost' => $post])
+                   ->setOrderBy(['createdAt' => 'DESC'])
+                   ->setTemplatePath('post/pagination.html.twig');
         $message = new Response();
         $form = $this->createForm(ResponseType::class, $message);
         $form->handleRequest($request);
@@ -77,8 +89,20 @@ class PostController extends AbstractController
 
         return $this->render('post/show.html.twig', [
             'post' => $post,
-            'messages' => $messages,
+            'pagination' => $pagination,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/post/{id}/delete", name="post_delete")
+     */
+    public function delete(Post $post, ObjectManager $manager, Request $request) {
+
+        $this->addFlash('success', "Your post has been deleted");
+        $post->setIsActive(false);
+        $manager->persist($post);
+        $manager->flush();
+        return $this->redirect($request->server->get('HTTP_REFERER'));
     }
 }

@@ -16,6 +16,8 @@ class Pagination {
     private $twig;
     private $route;
     private $templatePath;
+    private $critera = [];
+    private $orderBy = [];
 
     public function __construct(ObjectManager $manager, Environment $twig, RequestStack $request, $templatePath) {
 
@@ -29,25 +31,25 @@ class Pagination {
 
         $offset = ($this-> currentPage - 1) * $this->limit;
         $repo = $this->manager->getRepository($this->entityClass);
-        $data = $repo->findBy([], [], $this->limit, $offset);
+        $data = $repo->findBy($this->critera, $this->orderBy, $this->limit, $offset);
         return $data;
     }
 
     public function getPages() {
 
         $repo = $this->manager->getRepository($this->entityClass);
-        $total = count($repo->findAll());
+        $total = count($repo->findBy($this->critera));
         $pages = ceil($total / $this->limit);
         return $pages;
     }
 
-    public function display() {
+    public function display($options = []) {
 
-        $this->twig->display($this->templatePath, [
+        $this->twig->display($this->templatePath, array_merge([
             'page' => $this->currentPage,
             'pages' => $this->getPages(),
             'route' => $this->route
-        ]);
+        ], $options));
     }
 
     public function getEntityClass() {
@@ -102,6 +104,28 @@ class Pagination {
     public function setTemplatePath($templatePath) {
 
         $this->templatePath = $templatePath;
+        return $this;
+    }
+
+    public function getCritera() {
+
+        return $this->critera;
+    }
+
+    public function setCritera($critera) {
+
+        $this->critera = $critera;
+        return $this;
+    }
+
+    public function getOrderBy() {
+
+        return $this->orderBy;
+    }
+
+    public function setOrderBy($orderBy) {
+
+        $this->orderBy = $orderBy;
         return $this;
     }
 }

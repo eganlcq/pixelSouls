@@ -8,11 +8,13 @@ use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
 use App\Repository\RoleRepository;
+use App\Repository\UserRepository;
 use App\Repository\FightRepository;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -25,12 +27,20 @@ class AccountController extends AbstractController
      */
     public function login(AuthenticationUtils $utils)
     {
+        $inactiveAccount = null;
+        $cache = new FilesystemCache();
+        if($cache->has("error")) {
+
+            $inactiveAccount = $cache->get("error");
+            $cache->delete("error");
+        }
         $error      = $utils->getLastAuthenticationError();
         $username   = $utils->getLastUsername();
 
         return $this->render('account/login.html.twig', [
             'hasError'  =>  $error !== null,
-            'username'  =>  $username
+            'username'  =>  $username,
+            'inactiveAccount' => $inactiveAccount
         ]);
     }
 
@@ -42,7 +52,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/register", name="account_register")
      */
-    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, RoleRepository $repo) {
+    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, RoleRepository $repo, \Swift_Mailer $mailer) {
 
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
@@ -66,7 +76,20 @@ class AccountController extends AbstractController
             
             $manager->persist($user);
             $manager->flush();
-            $this->addFlash('success', "Your account has been successfully created");
+            $this->addFlash('success', "You need to confirm your account, we sent you an email at " . $user->getEmail());
+
+            $message = (new \Swift_Message('Account confirmation'))
+            ->setFrom('pro@pixelsouls.be')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'emails/confirm.html.twig', [
+                        'user' => $user
+                    ]
+                ),
+                'text/html'
+            );
+            $mailer->send($message);
 
             return $this->redirectToRoute('account_login');
         }
@@ -176,5 +199,19 @@ class AccountController extends AbstractController
             'user' => $user,
             'fights' => $fights
         ]);
+    }
+
+    /**
+     * @Route("account/confirm/{token}", name="account_confirm")
+     */
+    public function confirm($token, UserRepository $repo, ObjectManager $manager) {
+
+        $user = $repo->findOneByToken($token);
+        $user->setIsActive(true);
+        $manager->persist($user);
+        $manager->flush();
+
+        $this->addFlash("success", "Your account has been activated !");
+        return $this->redirectToRoute("account_login");
     }
 }

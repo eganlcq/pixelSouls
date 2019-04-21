@@ -30,12 +30,14 @@
                 {% if user.fighters | length > 0 %}
                     <div class="row">
                         {% for fighter in user.fighters %}
-                            {% set class = "col-lg-6" %}
-                            {% include "fighter/_fighter.html.twig" %}
+                            {% if fighter.isActive %}
+                                {% set class = "col-lg-6" %}
+                                {% include "fighter/_fighter.html.twig" %}
+                            {% endif %}
                         {% endfor %}
                     </div>
                 {% else %}
-                    <div class="alert alert-warning">
+                    <div class="alert alert-warning text-center">
                         <p>
                             <strong>{{ user.pseudo }}</strong> doesn't have any characters yet !
                         </p>
@@ -46,33 +48,42 @@
                 <hr class="bg-secondary">
                 <h2 class="text-center">Fights</h2>
                 <hr class="bg-secondary">
-                <em class="text-center">Current score : {{ user.score }}</em>
-                <div class="overflow-auto fixed-mh">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Character</th>
-                                <th>Opponent</th>
-                                <th>Date</th>
-                                <th>Win</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for fight in fights %}
+                {% if fights | length > 0 %}
+                    <em class="text-center">Current score : {{ user.score }}</em>
+                    <div class="overflow-auto fixed-mh">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td class="align-middle w-25">{{ fight.fighter.name }}</td>
-                                    <td class="align-middle w-25">{{ fight.opponent.name }}</td>
-                                    <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
-                                    {% if fight.isWon %}
-                                        <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>
-                                    {% else %}
-                                        <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
-                                    {% endif %}
+                                    <th>Character</th>
+                                    <th>Opponent</th>
+                                    <th>Date</th>
+                                    <th>Win</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {% for fight in fights %}
+                                    <tr>
+                                        <td class="align-middle w-25">{{ fight.fighter.name }}</td>
+                                        <td class="align-middle w-25">{{ fight.opponent.name }}</td>
+                                        <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
+                                        {% if fight.isWon %}
+                                            <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>
+                                        {% else %}
+                                            <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">
+                        <p>
+                            <strong>{{ user.pseudo }}</strong> did not make any fight yet !
+                        </p>
+                    </div>
+                {% endif %}
+                
             </div>
         </div>
     </div>

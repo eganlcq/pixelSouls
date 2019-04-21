@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Entity\Response;
 use App\Form\AdminPostType;
 use App\Service\Pagination;
 use App\Repository\PostRepository;
@@ -28,13 +29,18 @@ class AdminPostController extends AbstractController
     }
 
     /**
-     * @Route("/admin/post/{id}/edit", name="admin_posts_edit")
+     * @Route("/admin/post/{id}/edit/{page<\d+>?1}", name="admin_posts_edit")
      */
-    public function edit(Post $post, ResponseRepository $repo, Request $request, ObjectManager $manager) {
+    public function edit(Post $post, ResponseRepository $repo, Request $request, ObjectManager $manager, $page, Pagination $pagination) {
 
         $post->setFirstMessage("Edit mode");
+        $pagination->setEntityClass(Response::class)
+                   ->setCurrentPage($page)
+                   ->setLimit(10)
+                   ->setCritera(['relatedPost' => $post])
+                   ->setOrderBy(['createdAt' => 'DESC'])
+                   ->setTemplatePath('post/pagination.html.twig');
         $form = $this->createForm(AdminPostType::class, $post);
-        $messages = $repo->findOrderedMessages($post->getId());
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -46,8 +52,8 @@ class AdminPostController extends AbstractController
 
         return $this->render('admin/post/edit.html.twig', [
             'post' => $post,
-            'form' => $form->createView(),
-            'messages' => $messages
+            'pagination' => $pagination,
+            'form' => $form->createView()
         ]);
     }
 
@@ -57,7 +63,20 @@ class AdminPostController extends AbstractController
     public function delete(Post $post, ObjectManager $manager) {
 
         $this->addFlash('success', "Post n°<strong>{$post->getId()}</strong> was successfully deleted !");
-        $manager->remove($post);
+        $post->setIsActive(false);
+        $manager->persist($post);
+        $manager->flush();
+        return $this->redirectToRoute('admin_posts_index');
+    }
+
+    /**
+     * @Route("/admin/post/{id}/activate", name="admin_posts_activate")
+     */
+    public function activate(Post $post, ObjectManager $manager) {
+
+        $this->addFlash('success', "Post n°<strong>{$post->getId()}</strong> was successfully reactivated !");
+        $post->setIsActive(true);
+        $manager->persist($post);
         $manager->flush();
         return $this->redirectToRoute('admin_posts_index');
     }

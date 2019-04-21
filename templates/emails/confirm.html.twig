@@ -1,0 +1,11 @@
+<h2>Hello {{ user.pseudo }} !</h2>
+
+<p>Thanks for creating a pixel souls account in order to access our game.</p>
+<p>You will find a copy of your informations below.</p>
+<ul>
+    <li>First name : {{ user.firstName }}</li>
+    <li>Last name : {{ user.lastName }}</li>
+    <li>Pseudo : {{ user.pseudo }}</li>
+</ul>
+
+<a href="{{ url('account_confirm', { 'token': user.token }) }}">Please verifiy your account by clicking this link !</a>

@@ -30,7 +30,20 @@ class AdminCharacterController extends AbstractController
     public function delete(Fighter $fighter, ObjectManager $manager, Request $request) {
 
         $this->addFlash('success', "Character n°<strong>{$fighter->getId()}</strong> was successfully deleted !");
-        $manager->remove($fighter);
+        $fighter->setIsActive(false);
+        $manager->persist($fighter);
+        $manager->flush();
+        return $this->redirect($request->server->get('HTTP_REFERER'));
+    }
+
+    /**
+     * @Route("/admin/character/{id}/activate", name="admin_characters_activate")
+     */
+    public function activate(Fighter $fighter, ObjectManager $manager, Request $request) {
+
+        $this->addFlash('success', "Character n°<strong>{$fighter->getId()}</strong> was successfully reactivated !");
+        $fighter->setIsActive(true);
+        $manager->persist($fighter);
         $manager->flush();
         return $this->redirect($request->server->get('HTTP_REFERER'));
     }

@@ -29,22 +29,22 @@
                         <h4 class="card-title text-center">Comments</h4>
                     </div>
                     <div class="card-body">
-                        {% if post.responses | length > 0 %}
+                        {% if pagination.data | length > 0 %}
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th class="text-center">ID</th>
                                         <th class="text-center">Creation date</th>
-                                        <th class="text-center">Writer</th>
+                                        <th>Writer</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for message in messages %}
+                                    {% for message in pagination.data %}
                                         <tr>
                                             <td class="text-center align-middle">{{ message.id }}</td>
                                             <td class="text-center align-middle">{{ message.createdAt | date('d/m/Y G:i:s') }}</td>
-                                            <td class="text-center align-middle"><img src="/img/avatars/{{ message.writer.image }}" alt="" class="avatar avatar-micro mr-2">{{ message.writer.pseudo }}</td>
+                                            <td class="align-middle"><img src="/img/avatars/{{ message.writer.image }}" alt="" class="avatar avatar-micro mr-2">{{ message.writer.pseudo }}</td>
                                             <td>
                                                 <a href="{{ path('admin_comments_edit', { 'id': message.id }) }}" class="btn btn-primary">
                                                     <i class="fas fa-edit"></i>
@@ -55,6 +55,7 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            {{ pagination.display({'post': post}) }}
                         {% else %}
                             <div class="alert alert-warning">
                                 <p>

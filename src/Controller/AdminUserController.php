@@ -61,7 +61,20 @@ class AdminUserController extends AbstractController
     public function delete(User $user, ObjectManager $manager) {
 
         $this->addFlash('success', "User n°<strong>{$user->getId()}</strong> was successfully deleted !");
-        $manager->remove($user);
+        $user->setIsActive(false);
+        $manager->persist($user);
+        $manager->flush();
+        return $this->redirectToRoute('admin_users_index');
+    }
+
+    /**
+     * @Route("/admin/user/{id}/activate", name="admin_users_activate")
+     */
+    public function activate(User $user, ObjectManager $manager) {
+
+        $this->addFlash('success', "User n°<strong>{$user->getId()}</strong> was successfully activated !");
+        $user->setIsActive(true);
+        $manager->persist($user);
         $manager->flush();
         return $this->redirectToRoute('admin_users_index');
     }

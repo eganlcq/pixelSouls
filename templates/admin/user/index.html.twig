@@ -16,6 +16,7 @@
                     <th>Pseudo</th>
                     <th class="text-center">IMG</th>
                     <th class="text-center">NB CHAR</th>
+                    <th class="text-center">Activated</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -29,8 +30,19 @@
                         <td class="text-center align-middle"><img src="/img/avatars/{{ user.image }}" alt="" class="avatar avatar-mini"></td>
                         <td class="text-center align-middle">{{ user.fighters | length }}</td>
                         <td class="text-center align-middle">
+                            {% if user.isActive %}
+                                <i class="fas fa-check colored"></i>
+                            {% else %}
+                                <i class="fas fa-times colored"></i>
+                            {% endif %}
+                        </td>
+                        <td class="text-center align-middle">
                             <a href="{{ path('admin_users_edit', { 'id': user.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                            <a href="{{ path('admin_users_delete', { 'id': user.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            {% if user.isActive %}
+                                <a href="{{ path('admin_users_delete', { 'id': user.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            {% else %}
+                                <a href="{{ path('admin_users_activate', { 'id': user.id }) }}" class="btn btn-success"><i class="fas fa-redo"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

@@ -22,6 +22,7 @@
                     <th class="text-center">Total loose</th>
                     <th class="text-center">Total fights</th>
                     <th>Owner</th>
+                    <th class="text-center">Activated</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -40,8 +41,19 @@
                         <td class="text-center align-middle">{{ character.totalLoose }}</td>
                         <td class="text-center align-middle">{{ character.totalFights }}</td>
                         <td class="align-middle"><img src="/img/avatars/{{ character.owner.image }}" alt="" class="avatar avatar-micro mr-2">{{ character.owner.pseudo }}</td>
+                        <td class="text-center align-middle">
+                            {% if character.isActive %}
+                                <i class="fas fa-check colored"></i>
+                            {% else %}
+                                <i class="fas fa-times colored"></i>
+                            {% endif %}
+                        </td>
                         <td class="text-center">
-                            <a href="{{ path('admin_characters_delete', { 'id': character.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            {% if character.isActive %}
+                                <a href="{{ path('admin_characters_delete', { 'id': character.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            {% else %}
+                                <a href="{{ path('admin_characters_activate', { 'id': character.id }) }}" class="btn btn-success"><i class="fas fa-redo"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

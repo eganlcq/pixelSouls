@@ -54,61 +54,71 @@ class AppFixtures extends Fixture
             'Egan',
             'Lecocq',
             'Octofen',
-            $url
+            $url,
+            'e.lecocq@hotmail.com'
         )
         ->createUser(
             'Luca',
             'Mellini',
             'Ichikoros',
-            $url
+            $url,
+            'l.mellini@hotmail.com'
         )
         ->createUser(
             'Jordan',
             'Vankeerberghen',
             'Tanckraa',
-            $url
+            $url,
+            'j.vankeerberghen@hotmail.com'
         )
         ->createUser(
             'Guillaume',
             'Wyart',
             'Maestro700',
-            $url
+            $url,
+            'g.wyart@hotmail.com'
         )
         ->createUser(
             'Nicolas',
             'Roasar',
             'Kidnico',
-            $url
+            $url,
+            'n.rosar@hotmail.com'
         )
         ->createUser(
             'David',
             'Jacobs',
             'Pesto',
-            $url
+            $url,
+            'd.jacobs@hotmail.com'
         )
         ->createUser(
             'Daniel',
             'Vicente',
             'Kaneda',
-            $url
+            $url,
+            'd.vicente@hotmail.com'
         )
         ->createUser(
             'Remy',
             'Serrano',
             'DekaLeDon',
-            $url
+            $url,
+            'r.serrano@hotmail.com'
         )
         ->createUser(
             'Maxime',
             'Cochez',
             'Mako',
-            $url
+            $url,
+            'm.cochez@hotmail.com'
         )
         ->createUser(
             'Juliano',
             'Celestri',
             'Lawlieteru',
-            $url
+            $url,
+            'j.celestri@hotmail.com'
         );
 
         // CREATION DES SUCCES
@@ -646,7 +656,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private function createUser($firstName, $lastName, $pseudo, $image) {
+    private function createUser($firstName, $lastName, $pseudo, $image, $email) {
 
         $user = new User();
 
@@ -656,7 +666,8 @@ class AppFixtures extends Fixture
              ->setLastName($lastName)
              ->setPseudo($pseudo)
              ->setHash($hash)
-             ->setImage($image);
+             ->setImage($image)
+             ->setEmail($email);
 
         $this->listUser[] = $user;
 

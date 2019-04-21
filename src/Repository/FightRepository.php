@@ -25,6 +25,7 @@ class FightRepository extends ServiceEntityRepository
                     ->select('f')
                     ->where('f.fighter = ' . $id)
                     ->orWhere('f.opponent = ' . $id)
+                    ->andWhere('f.isActive = true')
                     ->orderBy('f.createdAt', 'DESC')
                     ->getQuery()
                     ->getResult();

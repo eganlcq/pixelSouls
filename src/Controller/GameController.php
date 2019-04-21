@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Weapon;
 use App\Entity\Fighter;
+use App\Service\ErrorHandler;
 use App\Repository\UserRepository;
 use App\Repository\WeaponRepository;
 use App\Repository\FighterRepository;
@@ -12,6 +13,7 @@ use Symfony\Component\Serializer\Serializer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -23,19 +25,18 @@ class GameController extends AbstractController
      * @Route("/", name="game")
      * @IsGranted("ROLE_USER")
      */
-    public function index(UserRepository $repo)
+    public function index()
     {
+        if($this->getUser()) {
 
+            if(!$this->getUser()->getIsActive()) {
+
+                $cache = new FilesystemCache();
+                $cache->set("error", "Your account is inactive, please check your email to activate it");
+                return $this->redirectToRoute('account_logout');
+            }
+        }
         return $this->render('game/index.html.twig');
-        
-        /*$encoder = [new JsonEncoder()];
-        $normalizer = [new ObjectNormalizer()];
-        $serializer = new Serializer($normalizer, $encoder);
-
-        $user = $repo->returnOneUser();
-            
-        $json = $serializer->serialize($user, 'json');
-        return new Response($json);*/
     }
 
     /**
@@ -167,7 +168,8 @@ class GameController extends AbstractController
      */
     public function deleteCharacter(Fighter $fighter, ObjectManager $manager) {
 
-        $manager->remove($fighter);
+        $fighter->setIsActive(false);
+        $manager->persist($fighter);
         $manager->flush();
 
         return $this->redirectToRoute('game_listCharacters');

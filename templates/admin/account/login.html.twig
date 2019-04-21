@@ -31,12 +31,12 @@
             </div>
             <div class="card-body">
                 {% if hasError %}
-                    <div class="alert alert-danger">Incorrect nickName or password given</div>
+                    <div class="alert alert-danger">Incorrect email or password given</div>
                 {% endif %}
                 <form method="post">
                     <div class="form-group">
-                        <label for="email">Nickname</label>
-                        <input type="text" name="_username" id="email" class="form-control" placeholder="Your nickname" value="{{ username }}" required>
+                        <label for="email">Email</label>
+                        <input type="text" name="_username" id="email" class="form-control" placeholder="Your email" value="{{ username }}" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>

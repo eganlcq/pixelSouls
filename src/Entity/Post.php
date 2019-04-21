@@ -57,6 +57,11 @@ class Post
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
         $this->responses = new ArrayCollection();
@@ -72,6 +77,7 @@ class Post
             $this->createdAt = new \DateTime();
             $this->createdAt->setTimezone(new DateTimeZone('Europe/Brussels'));
         }
+        if(empty($this->isActive)) $this->isActive = true;
     }
 
     public function getLastMessageTime() {
@@ -211,6 +217,18 @@ class Post
     public function setType(?TypePost $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
