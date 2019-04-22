@@ -96,6 +96,7 @@ class PostController extends AbstractController
 
     /**
      * @Route("/post/{id}/delete", name="post_delete")
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Post $post, ObjectManager $manager, Request $request) {
 

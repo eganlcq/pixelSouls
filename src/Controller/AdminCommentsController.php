@@ -9,12 +9,14 @@ use App\Repository\ResponseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminCommentsController extends AbstractController
 {
     /**
      * @Route("/admin/comments/{page<\d+>?1}", name="admin_comments_index")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(ResponseRepository $repo, $page, Pagination $pagination)
     {
@@ -27,6 +29,7 @@ class AdminCommentsController extends AbstractController
 
     /**
      * @Route("/admin/comments/{id}/edit", name="admin_comments_edit")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Response $message, Request $request, ObjectManager $manager) {
 
@@ -49,6 +52,7 @@ class AdminCommentsController extends AbstractController
 
     /**
      * @Route("/admin/comments/{id}/delete", name="admin_comments_delete")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Response $message, ObjectManager $manager, Request $request) {
 
@@ -61,6 +65,7 @@ class AdminCommentsController extends AbstractController
 
     /**
      * @Route("/admin/comments/{id}/activate", name="admin_comments_activate")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function activate(Response $message, ObjectManager $manager, Request $request) {
 

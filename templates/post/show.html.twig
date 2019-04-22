@@ -5,17 +5,17 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-6">
                 <hr class="bg-secondary">
-                <p class="d-inline ml-3">Subject : <em>{{ post.title }}</em></p>
-                <span>&nbsp;</span>
-                <i class="fas {{ post.postLabel }}"></i>
                 {% if post.writer is same as(app.user) %}
                     <a href="{{ path('post_delete', {'id': post.id}) }}" class="float-right mr-3"><i class="fas fa-times"></i></a>
                 {% endif %}
+                <p class="d-inline">Subject : <em>{{ post.title }}</em></p>
+                <span>&nbsp;</span>
+                <i class="fas {{ post.postLabel }}"></i>
                 <hr class="bg-secondary">
                 {% for message in pagination.data %}
-                    <div class="bg-light mb-3 pb-1 px-3">
+                    <div class=" {% if message.writer.isAdmin %} bg-primary {% else %} bg-light {% endif %} mb-3 pb-1 px-3">
                         {% if (message.writer is same as(app.user)) and (message.isActive) %}
                             <a href="{{ path('comments_delete', {'id': message.id}) }}" class="float-right mt-2"><i class="fas fa-times"></i></a>
                         {% endif %}
@@ -24,12 +24,13 @@
                                 <img src="/img/avatars/{{ message.writer.image }}" class="avatar avatar-medium my-3" alt="">
                             </div>
                             <div class="col-md-10">
-                                <span>{{ message.writer.pseudo }}</span>
+                                <span>{{ message.writer.pseudo }} {% if message.writer.isAdmin %} <em>[admin]</em> {% endif %}
+                                </span>
                                 <br>
                                 <em>{{ message.createdAt | date("d/m/Y G:i:s") }}</em>
                             </div>
                         </div>
-                        <hr class="bg-primary mt-0">
+                        <hr class=" {% if message.writer.isAdmin %} bg-light {% else %} bg-primary {% endif %} mt-0">
                         <p class="mx-3">
                             {% if message.isActive %}
                                 {{ message.content }}

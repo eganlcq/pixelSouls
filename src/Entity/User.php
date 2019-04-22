@@ -199,6 +199,16 @@ class User implements UserInterface
         return $this->firstName . ' ' . $this->lastName;
     }
 
+    public function isAdmin() {
+
+        foreach($this->getRoles() as $role) {
+
+            if($role == "ROLE_ADMIN") return true;
+        }
+
+        return false;
+    }
+
     public function getRoles() {
 
         $roles = $this->currentRoles->map(function($role){

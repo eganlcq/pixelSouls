@@ -7,7 +7,7 @@
         <hr class="bg-secondary">
         <h2 class="text-center">Forum</h2>
         <hr class="bg-secondary">
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table-sm d-none d-lg-table">
             <thead class="thead-dark">
                 <tr>
                     <th>Subject</th>
@@ -34,6 +34,33 @@
                             {% if post.writer is same as(app.user) %}
                                 <a href="{{ path('post_delete', {'id': post.id}) }}"><i class="fas fa-times"></i></a>
                             {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table class="table table-striped d-lg-none">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Subject</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in pagination.data %}
+                    <tr>
+                        <td>
+                            <p class="my-0">
+                                {% if post.writer is same as(app.user) %}
+                                    <a href="{{ path('post_delete', {'id': post.id}) }}" class="float-right"><i class="fas fa-times"></i></a>
+                                {% endif %}
+                                <i class="fas {{ post.postLabel }}"></i>
+                                <span>&nbsp;</span>
+                                <a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a>
+                            </p>
+                            <p class="mb-0 mt-1">
+                                <strong>{{ post.writer.pseudo }}</strong>
+                                <span class="float-right">{{ post.lastMessageTime.createdAt | date("d/m/Y G:i:s") }}</span>
+                            </p>
                         </td>
                     </tr>
                 {% endfor %}

@@ -667,7 +667,8 @@ class AppFixtures extends Fixture
              ->setPseudo($pseudo)
              ->setHash($hash)
              ->setImage($image)
-             ->setEmail($email);
+             ->setEmail($email)
+             ->setScore($this->faker->numberBetween(500, 5000));
 
         $this->listUser[] = $user;
 
@@ -769,7 +770,11 @@ class AppFixtures extends Fixture
 
         $fighter->setOwner($user)
                 ->setName($this->faker->lastName())
-                ->setImage($image);
+                ->setImage($image)
+                ->setAttackWon($this->faker->numberBetween(50, 200))
+                ->setDefenseWon($this->faker->numberBetween(50, 200))
+                ->setAttackLost($this->faker->numberBetween(50, 200))
+                ->setDefenseLost($this->faker->numberBetween(50, 200));
 
         $this->listFighter[] = $fighter;
 

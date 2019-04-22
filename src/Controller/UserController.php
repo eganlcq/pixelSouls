@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\Pagination;
 use App\Repository\FightRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -11,10 +12,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserController extends AbstractController
 {
     /**
+     * @Route("/user/leaderboard/{page<\d+>?1}", name="user_leaderboard")
+     * @IsGranted("ROLE_USER")
+     */
+    public function leaderboard($page, Pagination $pagination) {
+
+        $pagination->setEntityClass(User::class)
+                   ->setCurrentPage($page)
+                   ->setLimit(30)
+                   ->setOrderBy(['score' => 'DESC']);
+        return $this->render('user/leaderboard.html.twig', [
+            'pagination' => $pagination
+        ]);
+    }
+
+    /**
      * @Route("/user/{id}", name="user_show")
      * @IsGranted("ROLE_USER")
      */
-    public function index(User $user, FightRepository $repo)
+    public function show(User $user, FightRepository $repo)
     {
         $fights = $repo->findFightsByUser($user->getId());
 

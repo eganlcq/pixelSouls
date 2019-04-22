@@ -49,6 +49,7 @@ class FighterController extends AbstractController
 
     /**
      * @Route("/fighter/{id}/delete", name="fighters_delete")
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Fighter $fighter, ObjectManager $manager, Request $request) {
 

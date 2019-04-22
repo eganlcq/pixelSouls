@@ -9,14 +9,16 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminUserController extends AbstractController
 {
     /**
      * @Route("/admin/users/{page<\d+>?1}", name="admin_users_index")
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function index(UserRepository $repo, $page, Pagination $pagination)
+    public function index($page, Pagination $pagination)
     {
         $pagination->setEntityClass(User::class)
                    ->setCurrentPage($page);
@@ -27,6 +29,7 @@ class AdminUserController extends AbstractController
 
     /**
      * @Route("/admin/users/{id}/edit", name="admin_users_edit")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(User $user, Request $request, ObjectManager $manager) {
 
@@ -57,6 +60,7 @@ class AdminUserController extends AbstractController
 
     /**
      * @Route("/admin/user/{id}/delete", name="admin_users_delete")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(User $user, ObjectManager $manager) {
 
@@ -69,6 +73,7 @@ class AdminUserController extends AbstractController
 
     /**
      * @Route("/admin/user/{id}/activate", name="admin_users_activate")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function activate(User $user, ObjectManager $manager) {
 

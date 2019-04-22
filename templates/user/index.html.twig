@@ -5,12 +5,12 @@
 {% block body %}
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-3 text-center">
+            <div class="col-md-3 text-center">
                 <img src="/img/avatars/{{ user.image }}" class="avatar mb-3" alt="">
                 <br>
                 <span class="badge badge-secondary">{{ user.fighters | length }} Characters</span>
             </div>
-            <div class="col-9">
+            <div class="col-md-9">
                 <h1>{{ user.pseudo }}</h1>
                 <em>- {{ user.fullName }}</em>
                 {% if user is same as(app.user) %}

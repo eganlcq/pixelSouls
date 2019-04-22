@@ -12,12 +12,14 @@ use App\Repository\ResponseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminPostController extends AbstractController
 {
     /**
      * @Route("/admin/posts/{page<\d+>?1}", name="admin_posts_index")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(PostRepository $repo, $page, Pagination $pagination)
     {
@@ -30,6 +32,7 @@ class AdminPostController extends AbstractController
 
     /**
      * @Route("/admin/post/{id}/edit/{page<\d+>?1}", name="admin_posts_edit")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Post $post, ResponseRepository $repo, Request $request, ObjectManager $manager, $page, Pagination $pagination) {
 
@@ -59,6 +62,7 @@ class AdminPostController extends AbstractController
 
     /**
      * @Route("/admin/post/{id}/delete", name="admin_posts_delete")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Post $post, ObjectManager $manager) {
 
@@ -71,6 +75,7 @@ class AdminPostController extends AbstractController
 
     /**
      * @Route("/admin/post/{id}/activate", name="admin_posts_activate")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function activate(Post $post, ObjectManager $manager) {
 
