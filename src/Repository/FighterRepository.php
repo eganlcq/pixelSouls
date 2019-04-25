@@ -25,6 +25,7 @@ class FighterRepository extends ServiceEntityRepository
                     ->select('f')
                     ->join('f.owner', 'u')
                     ->where('u.id != ' . $id)
+                    ->andWhere('f.isActive = true')
                     ->andWhere()
                     ->getQuery()
                     ->getResult();

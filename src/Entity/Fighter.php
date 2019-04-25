@@ -142,7 +142,7 @@ class Fighter
 
     public function getExperienceNeeded() {
 
-        return $this->level * 100;
+        return $this->level * 10;
     }
 
     public function getTotalWin() {

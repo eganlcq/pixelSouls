@@ -29,6 +29,7 @@ class AppFixtures extends Fixture
     private $listArmor;
     private $listFighter;
     private $listTypePost;
+    private $manager;
 
     public function __construct(UserPasswordEncoderInterface $encoder) {
 
@@ -47,78 +48,260 @@ class AppFixtures extends Fixture
         $this->listFighter      = [];
         $this->listTypePost     = [];
 
+        $this->manager = $manager;
+
         $url = 'anonym.png';
+
+        // CREATION DES ARMES
+        $this->createWeapon(
+            "Dagger",
+            'dagger.png',
+            12,
+            30,
+            10,
+            "Small dagger, lack of power but very fast due to to its light weight, a little chance to parry"
+        )
+        ->createWeapon(
+            "Sword",
+            'sword.png',
+            15,
+            11,
+            5,
+            "Balanced weapon, inflicting standard damage, very little chance to parry"
+        )
+        ->createWeapon(
+            "Axe",
+            'axe.png',
+            16,
+            9,
+            0,
+            "Inflict good damage but a bit slow"
+        )
+        ->createWeapon(
+            "Hammer",
+            'hammer.png',
+            18,
+            8,
+            0,
+            "Common strike weapon, good damage but a bit slow"
+        )
+        ->createWeapon(
+            "Greatsword",
+            'greatsword.png',
+            20,
+            7,
+            0,
+            "Large weapon wielded with two hands, slow but powerful"
+        )
+        ->createWeapon(
+            "Greataxe",
+            'greataxe.png',
+            25,
+            6,
+            0,
+            "Axe requiring inhuman strenght to wield it, really powerful but very slow"
+        )
+        ->createWeapon(
+            "Greathammer",
+            'greathammer.png',
+            30,
+            5,
+            0,
+            "Large hammer dealing extremely heavy strike attacks, really slow"
+        )
+        ->createWeapon(
+            "Curved sword",
+            'curvedBlade.png',
+            15,
+            15,
+            40,
+            "Small curved sword that excels in swift movement and very fast attacks, good chances to parry"
+        )
+        ->createWeapon(
+            "Estoc",
+            'estoc.png',
+            12,
+            17,
+            0,
+            "Large thrusting sword used for dealing piercing damages"
+        )
+        ->createWeapon(
+            "Halberd",
+            'halberd.png',
+            18,
+            8,
+            30,
+            "Long-hilted weapon mixing spear and axe, chance to parry"
+        )
+        ->createWeapon(
+            "Katana",
+            'katana.png',
+            15,
+            20,
+            30,
+            "Weapon with finely-sharpened blade who can cut flesh like butter, chance to parry"
+        )
+        ->createWeapon(
+            "Scythe",
+            'scythe.png',
+            20,
+            7,
+            20,
+            "Normally used for harvesting, but its sharp curved blade can be used for battle as well"
+        )
+        ->createWeapon(
+            "Mace",
+            'cudgel.png',
+            17,
+            9,
+            0,
+            "Simple wooden club, pretty fast for standard damage"
+        )
+        ->createWeapon(
+            "Spear",
+            'spear.png',
+            13,
+            11,
+            40,
+            "Thrusting weapon, standard damage and low speed but high chance to parry"
+        )
+        ->createWeapon(
+            "Bo",
+            'bo.png',
+            12,
+            20,
+            25,
+            "Long piece of wood, used like a spear, deal less damage but faster"
+        )
+        ->createWeapon(
+            "Twin blades",
+            'guandao.png',
+            20,
+            8,
+            0,
+            "Stick with blades on both sides of it"
+        )
+        ->createWeapon(
+            "Sai",
+            'sai.png',
+            14,
+            30,
+            60,
+            "Weapon sized like a dagger with greatly curved guard, very high chances to parry"
+        )
+        ->createWeapon(
+            "Tonfa",
+            'tonfa.png',
+            13,
+            25,
+            40,
+            "Weapon with grip on the side, high chances to parry"
+        )
+        ->createWeapon(
+            "Fork",
+            'fork.png',
+            12,
+            7,
+            0,
+            "Not originally intended for battle, but can deal decent damages"
+        )
+        ->createWeapon(
+            "Frying pan",
+            'pan.png',
+            11,
+            11,
+            0,
+            "It reminds me something..."
+        );
 
         // CREATION DES UTILISATEURS
         $this->createUser(
-            'Egan',
-            'Lecocq',
-            'Octofen',
+            'BOT',
+            '1',
+            'BOT1',
             $url,
-            'e.lecocq@hotmail.com'
+            'BOT1@hotmail.com',
+            1,
+            100,
+            100,
+            100
         )
         ->createUser(
-            'Luca',
-            'Mellini',
-            'Ichikoros',
+            'BOT',
+            '3',
+            'BOT3',
             $url,
-            'l.mellini@hotmail.com'
+            'BOT3@hotmail.com',
+            3,
+            130,
+            130,
+            130
         )
         ->createUser(
-            'Jordan',
-            'Vankeerberghen',
-            'Tanckraa',
+            'BOT',
+            '5',
+            'BOT5',
             $url,
-            'j.vankeerberghen@hotmail.com'
+            'BOT5@hotmail.com',
+            5,
+            150,
+            150,
+            150
         )
         ->createUser(
-            'Guillaume',
-            'Wyart',
-            'Maestro700',
+            'BOT',
+            '8',
+            'BOT8',
             $url,
-            'g.wyart@hotmail.com'
+            'BOT8@hotmail.com',
+            8,
+            180,
+            180,
+            180
         )
         ->createUser(
-            'Nicolas',
-            'Roasar',
-            'Kidnico',
+            'BOT',
+            '10',
+            'BOT10',
             $url,
-            'n.rosar@hotmail.com'
+            'BOT10@hotmail.com',
+            10,
+            200,
+            200,
+            200
         )
         ->createUser(
-            'David',
-            'Jacobs',
-            'Pesto',
+            'BOT',
+            '12',
+            'BOT12',
             $url,
-            'd.jacobs@hotmail.com'
+            'BOT12@hotmail.com',
+            12,
+            220,
+            220,
+            220
         )
         ->createUser(
-            'Daniel',
-            'Vicente',
-            'Kaneda',
+            'BOT',
+            '15',
+            'BOT15',
             $url,
-            'd.vicente@hotmail.com'
+            'BOT15@hotmail.com',
+            15,
+            250,
+            250,
+            250
         )
         ->createUser(
-            'Remy',
-            'Serrano',
-            'DekaLeDon',
+            'BOT',
+            '20',
+            'BOT20',
             $url,
-            'r.serrano@hotmail.com'
-        )
-        ->createUser(
-            'Maxime',
-            'Cochez',
-            'Mako',
-            $url,
-            'm.cochez@hotmail.com'
-        )
-        ->createUser(
-            'Juliano',
-            'Celestri',
-            'Lawlieteru',
-            $url,
-            'j.celestri@hotmail.com'
+            'BOT20@hotmail.com',
+            20,
+            300,
+            300,
+            300
         );
 
         // CREATION DES SUCCES
@@ -211,168 +394,6 @@ class AppFixtures extends Fixture
         // CREATION DES ROLES
         $this->createRole('ROLE_USER')
              ->createRole('ROLE_ADMIN');
-
-        // CREATION DES ARMES
-        $this->createWeapon(
-            "Dagger",
-            'dagger.png',
-            65,
-            100,
-            10,
-            "Small dagger, lack of power but very fast due to to its light weight, a little chance to parry"
-        )
-        ->createWeapon(
-            "Sword",
-            'sword.png',
-            110,
-            70,
-            5,
-            "Balanced weapon, inflicting standard damage, very little chance to parry"
-        )
-        ->createWeapon(
-            "Axe",
-            'axe.png',
-            125,
-            60,
-            0,
-            "Inflict good damage but a bit slow"
-        )
-        ->createWeapon(
-            "Hammer",
-            'hammer.png',
-            115,
-            65,
-            0,
-            "Common strike weapon, good damage but a bit slow"
-        )
-        ->createWeapon(
-            "Greatsword",
-            'greatsword.png',
-            140,
-            50,
-            0,
-            "Large weapon wielded with two hands, slow but powerful"
-        )
-        ->createWeapon(
-            "Greataxe",
-            'greataxe.png',
-            190,
-            30,
-            0,
-            "Axe requiring inhuman strenght to wield it, really powerful but very slow"
-        )
-        ->createWeapon(
-            "Greathammer",
-            'greathammer.png',
-            170,
-            40,
-            0,
-            "Large hammer dealing extremely heavy strike attacks, really slow"
-        )
-        ->createWeapon(
-            "Curved sword",
-            'curvedBlade.png',
-            90,
-            90,
-            40,
-            "Small curved sword that excels in swift movement and very fast attacks, good chances to parry"
-        )
-        ->createWeapon(
-            "Estoc",
-            'estoc.png',
-            105,
-            70,
-            0,
-            "Large thrusting sword used for dealing piercing damages"
-        )
-        ->createWeapon(
-            "Halberd",
-            'halberd.png',
-            125,
-            60,
-            30,
-            "Long-hilted weapon mixing spear and axe, chance to parry"
-        )
-        ->createWeapon(
-            "Katana",
-            'katana.png',
-            115,
-            70,
-            30,
-            "Weapon with finely-sharpened blade who can cut flesh like butter, chance to parry"
-        )
-        ->createWeapon(
-            "Scythe",
-            'scythe.png',
-            115,
-            60,
-            20,
-            "Normally used for harvesting, but its sharp curved blade can be used for battle as well"
-        )
-        ->createWeapon(
-            "Mace",
-            'cudgel.png',
-            110,
-            80,
-            0,
-            "Simple wooden club, pretty fast for standard damage"
-        )
-        ->createWeapon(
-            "Spear",
-            'spear.png',
-            105,
-            60,
-            40,
-            "Thrusting weapon, standard damage and low speed but high chance to parry"
-        )
-        ->createWeapon(
-            "Bo",
-            'bo.png',
-            95,
-            80,
-            25,
-            "Long piece of wood, used like a spear, deal less damage but faster"
-        )
-        ->createWeapon(
-            "Twin blades",
-            'guandao.png',
-            125,
-            70,
-            0,
-            "Stick with blades on both sides of it"
-        )
-        ->createWeapon(
-            "Sai",
-            'sai.png',
-            60,
-            90,
-            60,
-            "Weapon sized like a dagger with greatly curved guard, very high chances to parry"
-        )
-        ->createWeapon(
-            "Tonfa",
-            'tonfa.png',
-            80,
-            90,
-            40,
-            "Weapon with grip on the side, high chances to parry"
-        )
-        ->createWeapon(
-            "Fork",
-            'fork.png',
-            105,
-            60,
-            0,
-            "Not originally intended for battle, but can deal decent damages"
-        )
-        ->createWeapon(
-            "Frying pan",
-            'pan.png',
-            90,
-            80,
-            0,
-            "It reminds me something..."
-        );
 
         // CREATION DES ARMURES
         $this->createArmor(
@@ -551,76 +572,7 @@ class AppFixtures extends Fixture
 
         foreach($this->listUser as $user) {
 
-            for($i = 1; $i < $this->faker->numberBetween(0, 20); $i++) {
-
-                $otherUser = $this->listUser[$this->faker->numberBetween(0, count($this->listUser) - 1)];
-                
-
-                $user->addFavoriteUser($otherUser);
-                $otherUser->addFan($user);
-            }
-
-            for($i = 1; $i < $this->faker->numberBetween(0, 10); $i++) {
-
-                $achievement = $this->listAchievement[$this->faker->numberBetween(0, count($this->listAchievement) - 1)];
-
-                $user->addAchievement($achievement);
-            }
-
-            if($user->getPseudo() === "Octofen") {
-
-                foreach($this->listRole as $role) {
-
-                    $user->addCurrentRole($role);
-                }
-            }
-            else {
-
-                $user->addCurrentRole($this->listRole[0]);
-            }
-
-            // CREATION DES POSTS
-            for($i = 1; $i <= $this->faker->numberBetween(0, 10); $i++) {
-
-                $post = $this->createPost($user);
-                $manager->persist($post);
-
-                // CREATION DES REPONSES
-                for($i = 1; $i <= $this->faker->numberBetween(0, 10); $i++) {
-
-                    $response = $this->createResponse($post);
-                    $manager->persist($response);
-                }
-            }
-
-            // CREATION DES PERSONNAGES
-            for($i = 1; $i <= $this->faker->numberBetween(3, 6); $i++) {
-
-                $fighter = $this->createFighter($user, $url);
-
-                for($i = 1; $i < $this->faker->numberBetween(0, 10); $i++) {
-
-                    $weapon = $this->listWeapon[$this->faker->numberBetween(0, count($this->listWeapon) - 1)];
-    
-                    $fighter->addWeapon($weapon);
-                }
-
-                for($i = 1; $i < $this->faker->numberBetween(0, 10); $i++) {
-
-                    $armor = $this->listArmor[$this->faker->numberBetween(0, count($this->listArmor) - 1)];
-    
-                    $fighter->addArmor($armor);
-                }
-                
-                $manager->persist($fighter);
-            }
-
-            // CREATION DES COMBATS
-            for($i = 1; $i < mt_rand(50, 100); $i++) {
-
-                $fight = $this->createFight();
-                $manager->persist($fight);
-            }
+            $user->addCurrentRole($this->listRole[0]);
         }
 
         foreach($this->listUser as $user) {
@@ -656,7 +608,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private function createUser($firstName, $lastName, $pseudo, $image, $email) {
+    private function createUser($firstName, $lastName, $pseudo, $image, $email, $level, $strength, $dexterity, $vitality) {
 
         $user = new User();
 
@@ -668,7 +620,12 @@ class AppFixtures extends Fixture
              ->setHash($hash)
              ->setImage($image)
              ->setEmail($email)
-             ->setScore($this->faker->numberBetween(500, 5000));
+             ->setIsActive(true);
+
+        for($i = 0; $i < 3; $i++) {
+
+            $user->addFighter($this->createFighter($image, $level, $strength, $dexterity, $vitality));
+        }
 
         $this->listUser[] = $user;
 
@@ -764,19 +721,26 @@ class AppFixtures extends Fixture
         return $this;
     }
 
-    private function createFighter($user, $image) {
+    private function createFighter($image, $level, $strength, $dexterity, $vitality) {
 
         $fighter = new Fighter();
 
-        $fighter->setOwner($user)
-                ->setName($this->faker->lastName())
+        $fighter->setName($this->faker->lastName())
                 ->setImage($image)
-                ->setAttackWon($this->faker->numberBetween(50, 200))
-                ->setDefenseWon($this->faker->numberBetween(50, 200))
-                ->setAttackLost($this->faker->numberBetween(50, 200))
-                ->setDefenseLost($this->faker->numberBetween(50, 200));
+                ->setLevel($level)
+                ->setStrength($strength)
+                ->setDexterity($dexterity)
+                ->setVitality($vitality);
+
+        for($i = 1; $i < $level; $i++) {
+
+            $weapon = $this->listWeapon[$this->faker->numberBetween(0, count($this->listWeapon) - 1)];
+
+            $fighter->addWeapon($weapon);
+        }
 
         $this->listFighter[] = $fighter;
+        $this->manager->persist($fighter);
 
         return $fighter;
     }
