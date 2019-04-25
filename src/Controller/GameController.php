@@ -145,7 +145,7 @@ class GameController extends AbstractController
             $weaponOfFighter = $fighter->getWeapons()->toArray();
             $weapons;
 
-            if(sizeof($fighter->getWeapons()->toArray() > 0)) {
+            if(sizeof($fighter->getWeapons()->toArray()) > 0) {
 
                 $weapons = $repo->findRemainingWeapons($fighter->getId());
             }
