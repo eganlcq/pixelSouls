@@ -142,8 +142,18 @@ class GameController extends AbstractController
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
-            $weapons = $repo->findRemainingWeapons($fighter->getId());
-    
+            $weaponOfFighter = $fighter->getWeapons()->toArray();
+            $weapons;
+
+            if(sizeof($fighter->getWeapons()->toArray() > 0)) {
+
+                $weapons = $repo->findRemainingWeapons($fighter->getId());
+            }
+            else {
+
+                $weapons = $repo->findAll();
+            }
+
             return $this->json($weapons, 200, [], [
                 ObjectNormalizer::ATTRIBUTES => [
                     'id',
@@ -291,7 +301,7 @@ class GameController extends AbstractController
                 $fighter = new Fighter();
                 $fighter->setOwner($user)
                         ->setName($data->name)
-                        ->setImage("http://127.0.0.1:8000/img/anonym.png");
+                        ->setImage("anonym.png");
                 
                 $manager->persist($fighter);
                 $manager->flush();
