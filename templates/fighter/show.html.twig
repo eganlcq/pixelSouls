@@ -51,8 +51,8 @@
                     <div class="card-body text-center">
                         <img src="/img/avatars/{{ fighter.owner.image }}" alt="" class="avatar avatar-medium mb-2">
                         <div>
-                            <span class="badge badge-dark w-50">Characters</span><br>
-                            {{ fighter.owner.fighters | length }}
+                            <span class="badge badge-dark w-50">Active Characters</span><br>
+                            {{ fighters | length }}
                         </div>
                         <hr class="bg-secondary my-1 w-50">
                         <div>
@@ -93,7 +93,7 @@
                                         {% for fight in fights %}
                                             <tr>
                                                 {% if fight.fighter.name == fighter.name %}
-                                                    <td class="align-middle w-25">{{ fight.opponent.name }}</td>
+                                                    <td class="align-middle w-25"><a href="{{ path('fighters_show', {'id': fight.opponent.id}) }}">{{ fight.opponent.name }}</a></td>
                                                     <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
                                                     {% if fight.isWon %}
                                                         <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>
@@ -101,7 +101,7 @@
                                                         <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
                                                     {% endif %}
                                                 {% else %}
-                                                    <td class="align-middle w-25">{{ fight.fighter.name }}</td>
+                                                    <td class="align-middle w-25"><a href="{{ path('fighters_show', {'id': fight.fighter.id}) }}">{{ fight.fighter.name }}</a></td>
                                                     <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
                                                     {% if fight.isWon %}
                                                         <td class="align-middle w-25"><img src="/img/stats/loose.png" alt="" class="w-50"></td>
@@ -133,9 +133,9 @@
                         <div class="row">
                             {% for weapon in weapons %}
                                 {% if weapon in fighter.weapons %}
-                                    <img src="http://127.0.0.1:8000/img/weapons/{{ weapon.image }}" alt="" class="w-100 h-100 col-md-2 col-sm-3 weapon">
+                                    <img src="/img/weapons/{{ weapon.image }}" alt="" class="w-100 h-100 col-md-2 col-sm-3 weapon">
                                 {% else %}
-                                    <img src="http://127.0.0.1:8000/img/blankWeapons/{{ weapon.image }}" alt="" class="w-100 h-100 col-md-2 col-sm-3 weapon">
+                                    <img src="/img/blankWeapons/{{ weapon.image }}" alt="" class="w-100 h-100 col-md-2 col-sm-3 weapon">
                                 {% endif %}
                             {% endfor %}
                         </div>

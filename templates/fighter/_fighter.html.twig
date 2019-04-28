@@ -8,7 +8,7 @@
             <div class="text-center">
                 <img src="/img/avatars/{{ fighter.owner.image }}" alt="" class="avatar avatar-medium">
                 <br>
-                <p class="mt-2 mb-0">Character of <span class="font-weight-bold">{{ fighter.owner.pseudo }}</span></p>
+                <p class="mt-2 mb-0">Character of <a class="font-weight-bold" href="{{ path('user_show', {'id': fighter.owner.id}) }}">{{ fighter.owner.pseudo }}</a></p>
                 <p class="my-0"><em>[{{ fighter.totalWin }} fights won]</em></p>
                 <hr>
                 <div>

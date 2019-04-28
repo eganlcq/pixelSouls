@@ -10,7 +10,9 @@ use App\Form\PasswordUpdateType;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use App\Repository\FightRepository;
+use App\Repository\FighterRepository;
 use Symfony\Component\Form\FormError;
+use App\Repository\PatchNoteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -176,10 +178,14 @@ class AccountController extends AbstractController
      * @Route("/account", name="account_index")
      * @IsGranted("ROLE_USER")
      */
-    public function myAccount(FightRepository $repo) {
+    public function myAccount(FightRepository $repo, FighterRepository $Frepo) {
 
         $user = $this->getUser();
         $fights = $repo->findFightsByUser($user->getId());
+        $fighters = $Frepo->findBy([
+            'owner' => $user,
+            'isActive' => true
+        ]);
 
         foreach($fights as $fight) {
 
@@ -197,7 +203,8 @@ class AccountController extends AbstractController
 
         return $this->render('user/index.html.twig', [
             'user' => $user,
-            'fights' => $fights
+            'fights' => $fights,
+            'fighters' => $fighters
         ]);
     }
 

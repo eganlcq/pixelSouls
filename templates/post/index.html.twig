@@ -26,8 +26,8 @@
                             <span>&nbsp;</span>
                             <a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a>
                         </td>
-                        <td>{{ post.writer.pseudo }}</td>
-                        <td>{{ post.createdAt | date("d/m/Y") }}</td>
+                        <td><a href="{{ path('user_show', {'id': post.writer.id}) }}">{{ post.writer.pseudo }}</a></td>
+                        <td>{{ post.createdAt | date("d/m/Y G:i:s") }}</td>
                         <td>{{ post.responses | length }}</td>
                         <td>{{ post.lastMessageTime.createdAt | date("d/m/Y G:i:s") }}</td>
                         <td>

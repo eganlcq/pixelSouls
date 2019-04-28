@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Service\Pagination;
 use App\Repository\FightRepository;
+use App\Repository\FighterRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,9 +31,13 @@ class UserController extends AbstractController
      * @Route("/user/{id}", name="user_show")
      * @IsGranted("ROLE_USER")
      */
-    public function show(User $user, FightRepository $repo)
+    public function show(User $user, FightRepository $repo, FighterRepository $Frepo)
     {
         $fights = $repo->findFightsByUser($user->getId());
+        $fighters = $Frepo->findBy([
+            'owner' => $user,
+            'isActive' => true
+        ]);
 
         foreach($fights as $fight) {
 
@@ -50,7 +55,8 @@ class UserController extends AbstractController
 
         return $this->render('user/index.html.twig', [
             'user' => $user,
-            'fights' => $fights
+            'fights' => $fights,
+            'fighters' => $fighters
         ]);
     }
 }

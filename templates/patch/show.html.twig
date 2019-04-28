@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ patch.name }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">&nbsp;</div>
+            <div class="col-md-6">
+                <hr class="bg-secondary">
+                <h2 class="text-center">{{ patch.name }}</h2>
+                <hr class="bg-secondary">
+                <div class="col-12 text-center">
+                    <img src="/img/logo/logo.png" alt="" class="w-50 center-block">
+                </div>
+                <ul class="list-group text-center bg-light">
+                    {% for note in patch.notes %}
+                        <li class="list-group-item">{{ note.content }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

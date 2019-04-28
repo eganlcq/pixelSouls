@@ -69,7 +69,7 @@ class PostController extends AbstractController
                    ->setCurrentPage($page)
                    ->setLimit(20)
                    ->setCritera(['relatedPost' => $post])
-                   ->setOrderBy(['createdAt' => 'DESC'])
+                   ->setOrderBy(['createdAt' => 'ASC'])
                    ->setTemplatePath('post/pagination.html.twig');
         $message = new Response();
         $form = $this->createForm(ResponseType::class, $message);

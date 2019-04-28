@@ -24,8 +24,8 @@
                                 <img src="/img/avatars/{{ message.writer.image }}" class="avatar avatar-medium my-3" alt="">
                             </div>
                             <div class="col-md-10">
-                                <span>{{ message.writer.pseudo }} {% if message.writer.isAdmin %} <em>[admin]</em> {% endif %}
-                                </span>
+                                <a href="{{ path('user_show', {'id': message.writer.id}) }}">{{ message.writer.pseudo }} {% if message.writer.isAdmin %} <em>[admin]</em> {% endif %}
+                                </a>
                                 <br>
                                 <em>{{ message.createdAt | date("d/m/Y G:i:s") }}</em>
                             </div>

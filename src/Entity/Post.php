@@ -25,7 +25,7 @@ class Post
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="You have to pick a subject title")
-     * @Assert\Length(min=8, minMessage="Your subject title must be longer")
+     * @Assert\Length(min=5, minMessage="Your subject title must be longer")
      */
     private $title;
 

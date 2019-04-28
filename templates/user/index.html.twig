@@ -8,7 +8,7 @@
             <div class="col-md-3 text-center">
                 <img src="/img/avatars/{{ user.image }}" class="avatar mb-3" alt="">
                 <br>
-                <span class="badge badge-secondary">{{ user.fighters | length }} Characters</span>
+                <span class="badge badge-secondary">{{ fighters | length }} Characters</span>
             </div>
             <div class="col-md-9">
                 <h1>{{ user.pseudo }}</h1>
@@ -27,13 +27,11 @@
                 <hr class="bg-secondary">
                 <h2 class="text-center">Characters</h2>
                 <hr class="bg-secondary">
-                {% if user.fighters | length > 0 %}
+                {% if fighters | length > 0 %}
                     <div class="row">
-                        {% for fighter in user.fighters %}
-                            {% if fighter.isActive %}
-                                {% set class = "col-lg-6" %}
-                                {% include "fighter/_fighter.html.twig" %}
-                            {% endif %}
+                        {% for fighter in fighters %}
+                            {% set class = "col-lg-6" %}
+                            {% include "fighter/_fighter.html.twig" %}
                         {% endfor %}
                     </div>
                 {% else %}
@@ -63,8 +61,8 @@
                             <tbody>
                                 {% for fight in fights %}
                                     <tr>
-                                        <td class="align-middle w-25">{{ fight.fighter.name }}</td>
-                                        <td class="align-middle w-25">{{ fight.opponent.name }}</td>
+                                        <td class="align-middle w-25"><a href="{{ path('fighters_show', {'id': fight.fighter.id}) }}">{{ fight.fighter.name }}</a></td>
+                                        <td class="align-middle w-25"><a href="{{ path('fighters_show', {'id': fight.opponent.id}) }}">{{ fight.opponent.name }}</a></td>
                                         <td class="align-middle w-25">{{ fight.createdAt | date("d/m/Y") }}</td>
                                         {% if fight.isWon %}
                                             <td class="align-middle w-25"><img src="/img/stats/win.png" alt="" class="w-50"></td>

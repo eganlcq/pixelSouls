@@ -35,15 +35,22 @@ class FighterController extends AbstractController
      * @Route("/fighter/{id}", name="fighters_show")
      * @IsGranted("ROLE_USER")
      */
-    public function show(Fighter $fighter, WeaponRepository $Wrepo, FightRepository $Frepo) {
+    public function show(Fighter $fighter, WeaponRepository $Wrepo, FightRepository $Frepo, FighterRepository $FiRepo) {
 
         $weapons = $Wrepo->findAll();
         $fights = $Frepo->findExistingFights($fighter->getId());
 
+        $user = $fighter->getOwner();
+        $fighters = $FiRepo->findBy([
+            'owner' => $user,
+            'isActive' => true
+        ]);
+
         return $this->render('fighter/show.html.twig', [
             'fighter'   => $fighter,
             'weapons'   => $weapons,
-            'fights'    => $fights
+            'fights'    => $fights,
+            'fighters' => $fighters
         ]);
     }
 

@@ -10,6 +10,7 @@ use App\Service\ErrorHandler;
 use App\Repository\UserRepository;
 use App\Repository\WeaponRepository;
 use App\Repository\FighterRepository;
+use App\Repository\PatchNoteRepository;
 use Symfony\Component\Serializer\Serializer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,8 +27,10 @@ class GameController extends AbstractController
      * @Route("/", name="game")
      * @IsGranted("ROLE_USER")
      */
-    public function index()
+    public function index(PatchNoteRepository $repo)
     {
+        $patchNotes = $repo->findAll();
+
         if($this->getUser()) {
 
             if(!$this->getUser()->getIsActive()) {
@@ -37,17 +40,20 @@ class GameController extends AbstractController
                 return $this->redirectToRoute('account_logout');
             }
         }
-        return $this->render('game/index.html.twig');
+        return $this->render('game/index.html.twig', [
+            'patchNotes' => $patchNotes
+        ]);
     }
 
     /**
      * @Route("/listCharacters/{token}", name="game_listCharacters")
      */
-    public function listCharacter(FighterRepository $fighterRepo, $token) {
+    public function listCharacter(FighterRepository $fighterRepo, $token, UserRepository $userRepo) {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
             $user = $this->getUser();
+            //$user = $userRepo->findOneByPseudo("Octofen");
     
             $fighters = $fighterRepo->findBy([
                 "owner" => $user,
@@ -95,11 +101,12 @@ class GameController extends AbstractController
     /**
      * @Route("/listOpponents/{token}", name="game_listOpponents")
      */
-    public function listOpponents(FighterRepository $fighterRepo, $token) {
+    public function listOpponents(FighterRepository $fighterRepo, $token, UserRepository $userRepo) {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
             $user = $this->getUser();
+            //$user = $userRepo->findOneByPseudo("Octofen");
     
             $fighters = $fighterRepo->findAllOpponents($user->getId());
     
@@ -169,7 +176,7 @@ class GameController extends AbstractController
     /**
      * @Route("/removeCharacter/{id}/{token}", name="game_deleteCharacter")
      */
-    public function deleteCharacter(Fighter $fighter, ObjectManager $manager, FighterRepository $fighterRepo, $token) {
+    public function deleteCharacter(Fighter $fighter, ObjectManager $manager, FighterRepository $fighterRepo, $token, UserRepository $userRepo) {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
@@ -178,6 +185,7 @@ class GameController extends AbstractController
             $manager->flush();
     
             $user = $this->getUser();
+            //$user = $userRepo->findOneByPseudo("Octofen");
     
             $fighters = $fighterRepo->findBy([
                 "owner" => $user,
@@ -225,7 +233,7 @@ class GameController extends AbstractController
     /**
      * @Route("/updateFighter/{token}", name="updateFighter")
      */
-    public function updateFighter(ObjectManager $manager, FighterRepository $repo, $token) {
+    public function updateFighter(ObjectManager $manager, FighterRepository $repo, $token, UserRepository $userRepo) {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
@@ -238,6 +246,7 @@ class GameController extends AbstractController
                 $fighter = $repo->findOneById($fighterData->id);
                 $opponent = $repo->findOneById($opponentData->id);
                 $user = $this->getUser();
+                //$user = $userRepo->findOneByPseudo("Octofen");
                 $fight = new Fight();
                 $fighter->setExperience($fighterData->experience);
                 $fighter->setLevel($fighterData->level);
@@ -287,13 +296,14 @@ class GameController extends AbstractController
     /**
      * @Route("/newCharacter/{token}", name="newCharacter")
      */
-    public function addFighter(ObjectManager $manager, $token) {
+    public function addFighter(ObjectManager $manager, $token, UserRepository $userRepo) {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
             if(isset($_POST['json'])) {
     
                 $user = $this->getUser();
+                //$user = $userRepo->findOneByPseudo("Octofen");
     
                 $json = $_POST['json'];
                 $data = json_decode($json);
