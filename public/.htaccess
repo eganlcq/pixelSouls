@@ -23,8 +23,8 @@ DirectoryIndex index.php
     RewriteCond %{HTTPS} !=on
     RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ app.php [QSA,L]
+    #RewriteCond %{REQUEST_FILENAME} !-f
+    #RewriteRule ^(.*)$ app.php [QSA,L]
 
     # RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
     # RewriteRule ^(.*) - [E=BASE:%1]
@@ -35,8 +35,8 @@ DirectoryIndex index.php
     # RewriteCond %{ENV:REDIRECT_STATUS} ^$
     # RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
 
-    # RewriteCond %{REQUEST_FILENAME} -f
-    # RewriteRule ^ - [L]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
 
     # RewriteRule ^ %{ENV:BASE}/index.php [L]
 </IfModule>
