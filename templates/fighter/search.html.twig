@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of characters{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(form) }}
+        <div class="row mb-2">
+            <div class="col-lg-6 col-md-12">
+                {{ form_widget(form.searchType, {'attr': {'class': 'w-25 float-left'}}) }}
+                {{ form_widget(form.search, {'attr': {'class': 'w-75 float-right'}}) }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Search &nbsp; <i class="fas fa-search"></i></button>
+        {{ form_end(form) }}
+        {% if data | length > 0 %}
+            <div class="row">
+                {% for fighter in data %}
+                    {% set class = "col-lg-3 col-md-4 col-sm-6" %}
+                    {% include "fighter/_fighter.html.twig" %}
+                {% endfor %}
+            </div>  
+        {% else %}
+            {% if searchType == 'Name' %}
+                <div class="alert alert-warning text-center">
+                    <p>
+                        There is no character called <strong>{{ search }}</strong>
+                    </p>
+                </div>
+            {% else %}
+                <div class="alert alert-warning text-center">
+                    <p>
+                        There is no user called <strong>{{ search }}</strong>
+                    </p>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

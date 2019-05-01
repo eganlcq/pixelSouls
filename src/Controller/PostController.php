@@ -7,6 +7,7 @@ use App\Form\PostType;
 use App\Entity\Response;
 use App\Form\ResponseType;
 use App\Service\Pagination;
+use App\Form\SearchPostType;
 use App\Repository\PostRepository;
 use App\Repository\ResponseRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,10 +53,106 @@ class PostController extends AbstractController
                 'id' => $post->getId()
             ]);
         }
+
+        $searchForm = $this->createForm(SearchPostType::class);
+        $searchForm->handleRequest($request);
+
+        if($searchForm->isSubmitted() && $searchForm->isValid()) {
+
+            if($searchForm->get('search')->getData() == null && $searchForm->get('typePost')->getData() == "All") {
+
+                return $this->redirectToRoute('post_index');
+            }
+            else {
+
+                return $this->redirectToRoute('post_search', [
+                    'searchType' => $searchForm->get('searchType')->getData(),
+                    'typePost' => $searchForm->get('typePost')->getData(),
+                    'search' => $searchForm->get('search')->getData()
+                ]);
+            }
+        }
         
         return $this->render('post/index.html.twig', [
             'pagination' => $pagination,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'searchForm' => $searchForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/posts/search/{searchType}/{typePost}/{search}", name="post_search")
+     * @IsGranted("ROLE_USER")
+     */
+    public function search(PostRepository $repo, Request $request, ObjectManager $manager, $searchType, $typePost, $search = null) {
+
+        $post = new Post();
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $user = $this->getUser();
+
+            $response = new Response();
+            $response->setWriter($user);
+            $response->setContent($post->getFirstMessage());
+            $manager->persist($response);
+
+            $post->setWriter($user);
+            $post->addResponse($response);
+            $manager->persist($post);
+            $manager->flush();
+
+            return $this->redirectToRoute("post_show", [
+                'id' => $post->getId()
+            ]);
+        }
+
+        $searchForm = $this->createForm(SearchPostType::class);
+        $searchForm->handleRequest($request);
+
+        if($searchForm->isSubmitted() && $searchForm->isValid()) {
+
+            if($searchForm->get('search')->getData() == null && $searchForm->get('typePost')->getData() == "All") {
+
+                return $this->redirectToRoute('post_index');
+            }
+            else {
+
+                return $this->redirectToRoute('post_search', [
+                    'searchType' => $searchForm->get('searchType')->getData(),
+                    'typePost' => $searchForm->get('typePost')->getData(),
+                    'search' => $searchForm->get('search')->getData()
+                ]);
+            }
+        }
+
+        if($search == null) {
+
+            $posts = $repo->searchByType($typePost);
+        }
+        else {
+
+            switch($searchType) {
+    
+                case 'Title':
+                    if($typePost == "All") $posts = $repo->searchByTitle($search);
+                    else $posts = $repo->searchByTitleAndType($search, $typePost);
+                    break;
+                case 'User':
+                    if($typePost == "All") $posts = $repo->searchByUser($search);
+                    else $posts = $repo->searchByUserAndType($search, $typePost);
+                    break;
+            }
+        }
+        
+        return $this->render('post/search.html.twig', [
+            'form' => $form->createView(),
+            'searchForm' => $searchForm->createView(),
+            'data' => $posts,
+            'searchType' => $searchType,
+            'search' => $search
         ]);
     }
 

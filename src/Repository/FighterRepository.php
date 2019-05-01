@@ -30,4 +30,48 @@ class FighterRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();
     }
+
+    public function searchByName($name) {
+
+        return $this->createQueryBuilder('f')
+                    ->select('f')
+                    ->where('f.name LIKE :name')
+                    ->andWhere('f.isActive = true')
+                    ->setParameter('name', '%' . $name . '%')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function searchByUser($pseudo) {
+
+        return $this->createQueryBuilder('f')
+                    ->select('f')
+                    ->join('f.owner', 'u')
+                    ->where('u.pseudo LIKE :pseudo')
+                    ->andWhere('f.isActive = true')
+                    ->setParameter('pseudo', '%' . $pseudo . '%')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function searchByNameAdmin($name) {
+
+        return $this->createQueryBuilder('f')
+                    ->select('f')
+                    ->where('f.name LIKE :name')
+                    ->setParameter('name', '%' . $name . '%')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function searchByUserAdmin($pseudo) {
+
+        return $this->createQueryBuilder('f')
+                    ->select('f')
+                    ->join('f.owner', 'u')
+                    ->where('u.pseudo LIKE :pseudo')
+                    ->setParameter('pseudo', '%' . $pseudo . '%')
+                    ->getQuery()
+                    ->getResult();
+    }
 }

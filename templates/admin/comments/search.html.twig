@@ -1,0 +1,64 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Comments administration{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        {{ form_start(form) }}
+        <div class="row mb-2">
+            <div class="col-lg-6 col-md-12">
+                {{ form_widget(form.search) }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Search &nbsp; <i class="fas fa-search"></i></button>
+        {{ form_end(form) }}
+        <hr class="bg-secondary">
+        <h2 class="text-center">Comments</h2>
+        <hr class="bg-secondary">
+        {% if data | length > 0 %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="w-50">Content</th>
+                        <th class="text-center">Creation date</th>
+                        <th>Writer</th>
+                        <th class="text-center">Activated</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in data %}
+                        <tr>
+                            <td class="text-center align-middle">{{ message.id }}</td>
+                            <td class="align-middle">{{ message.content }}</td>
+                            <td class="text-center align-middle">{{ message.createdAt | date("d/m/Y G:m:s") }}</td>
+                            <td class="align-middle"><img src="/img/avatars/{{ message.writer.image }}" alt="" class="avatar avatar-micro mr-2">{{ message.writer.pseudo }}</td>
+                            <td class="text-center align-middle">
+                                {% if message.isActive %}
+                                    <i class="fas fa-check colored"></i>
+                                {% else %}
+                                    <i class="fas fa-times colored"></i>
+                                {% endif %}
+                            </td>
+                            <td class="text-center align-middle">
+                                <a href="{{ path('admin_comments_edit', { 'id': message.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                {% if message.isActive %}
+                                    <a href="{{ path('admin_comments_delete', { 'id': message.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                {% else %}
+                                    <a href="{{ path('admin_comments_activate', { 'id': message.id }) }}" class="btn btn-success"><i class="fas fa-redo"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-warning text-center">
+                <p>
+                    There is no comment called <strong>{{ search }}</strong>
+                </p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

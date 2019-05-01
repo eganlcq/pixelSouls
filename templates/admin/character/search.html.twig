@@ -1,0 +1,88 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Characters administration{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        {{ form_start(form) }}
+        <div class="row mb-2">
+            <div class="col-lg-6 col-md-12">
+                {{ form_widget(form.searchType, {'attr': {'class': 'w-25 float-left'}}) }}
+                {{ form_widget(form.search, {'attr': {'class': 'w-75 float-right'}}) }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Search &nbsp; <i class="fas fa-search"></i></button>
+        {{ form_end(form) }}
+        <hr class="bg-secondary">
+        <h2 class="text-center">Characters</h2>
+        <hr class="bg-secondary">
+        {% if data | length > 0 %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">STR</th>
+                        <th class="text-center">DEX</th>
+                        <th class="text-center">VIT</th>
+                        <th class="text-center">LVL</th>
+                        <th class="text-center">EXP</th>
+                        <th class="text-center">Creation date</th>
+                        <th class="text-center">Total win</th>
+                        <th class="text-center">Total loose</th>
+                        <th class="text-center">Total fights</th>
+                        <th>Owner</th>
+                        <th class="text-center">Activated</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for character in data %}
+                        <tr>
+                            <td class="text-center align-middle">{{ character.id }}</td>
+                            <td class="text-center align-middle">{{ character.name }}</td>
+                            <td class="text-center align-middle">{{ character.strength }}</td>
+                            <td class="text-center align-middle">{{ character.dexterity }}</td>
+                            <td class="text-center align-middle">{{ character.vitality }}</td>
+                            <td class="text-center align-middle">{{ character.level }}</td>
+                            <td class="text-center align-middle">{{ character.experience }}</td>
+                            <td class="text-center align-middle">{{ character.createdAt | date("d/m/Y") }}</td>
+                            <td class="text-center align-middle">{{ character.totalWin }}</td>
+                            <td class="text-center align-middle">{{ character.totalLoose }}</td>
+                            <td class="text-center align-middle">{{ character.totalFights }}</td>
+                            <td class="align-middle"><img src="/img/avatars/{{ character.owner.image }}" alt="" class="avatar avatar-micro mr-2">{{ character.owner.pseudo }}</td>
+                            <td class="text-center align-middle">
+                                {% if character.isActive %}
+                                    <i class="fas fa-check colored"></i>
+                                {% else %}
+                                    <i class="fas fa-times colored"></i>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if character.isActive %}
+                                    <a href="{{ path('admin_characters_delete', { 'id': character.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                {% else %}
+                                    <a href="{{ path('admin_characters_activate', { 'id': character.id }) }}" class="btn btn-success"><i class="fas fa-redo"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            {% if searchType == 'Name' %}
+                <div class="alert alert-warning text-center">
+                    <p>
+                        There is no character called <strong>{{ search }}</strong>
+                    </p>
+                </div>
+            {% else %}
+                <div class="alert alert-warning text-center">
+                    <p>
+                        There is no user called <strong>{{ search }}</strong>
+                    </p>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

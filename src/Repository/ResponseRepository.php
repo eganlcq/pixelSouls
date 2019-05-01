@@ -29,4 +29,14 @@ class ResponseRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();
     }
+
+    public function searchByContent($content) {
+
+        return $this->createQueryBuilder('c')
+                    ->select('c')
+                    ->where('c.content LIKE :content')
+                    ->setParameter('content', '%' . $content . '%')
+                    ->getQuery()
+                    ->getResult();
+    }
 }

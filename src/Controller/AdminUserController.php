@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\AdminUserType;
 use App\Service\Pagination;
+use App\Form\SearchUserType;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -18,12 +19,76 @@ class AdminUserController extends AbstractController
      * @Route("/admin/users/{page<\d+>?1}", name="admin_users_index")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index($page, Pagination $pagination)
+    public function index($page, Pagination $pagination, Request $request)
     {
         $pagination->setEntityClass(User::class)
                    ->setCurrentPage($page);
+
+        $form = $this->createForm(SearchUserType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            if($form->get('search')->getData() == null) {
+
+                return $this->redirectToRoute('admin_users_index');
+            }
+            else {
+
+                return $this->redirectToRoute('admin_users_search', [
+                    'searchType' => $form->get('searchType')->getData(),
+                    'search' => $form->get('search')->getData()
+                ]);
+            }
+        }
+
         return $this->render('admin/user/index.html.twig', [
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/users/search/{searchType}/{search}", name="admin_users_search")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function search(UserRepository $repo, Request $request, $searchType, $search)
+    {
+        $form = $this->createForm(SearchUserType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            if($form->get('search')->getData() == null) {
+
+                return $this->redirectToRoute('admin_users_index');
+            }
+            else {
+
+                return $this->redirectToRoute('admin_users_search', [
+                    'searchType' => $form->get('searchType')->getData(),
+                    'search' => $form->get('search')->getData()
+                ]);
+            }
+        }
+
+        switch($searchType) {
+
+            case 'Pseudo' :
+                $users = $repo->searchByPseudo($search);
+                break;
+            case 'FirstName':
+                $users = $repo->searchByFirstName($search);
+                break;
+            case 'LastName':
+                $users = $repo->searchByLastName($search);
+                break;
+        }
+
+        return $this->render('admin/user/search.html.twig', [
+            'form' => $form->createView(),
+            'data' => $users,
+            'search' => $search
         ]);
     }
 

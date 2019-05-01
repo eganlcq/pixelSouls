@@ -4,6 +4,16 @@
 
 {% block body %}
     <div class="container-fluid">
+        {{ form_start(form) }}
+        <div class="row mb-2">
+            <div class="col-lg-6 col-md-12">
+                {{ form_widget(form.searchType, {'attr': {'class': 'w-25 float-left'}}) }}
+                {{ form_widget(form.typePost, {'attr': {'class': 'w-25 float-left'}}) }}
+                {{ form_widget(form.search, {'attr': {'class': 'w-50 float-right'}}) }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Search &nbsp; <i class="fas fa-search"></i></button>
+        {{ form_end(form) }}
         <hr class="bg-secondary">
         <h2 class="text-center">Posts</h2>
         <hr class="bg-secondary">

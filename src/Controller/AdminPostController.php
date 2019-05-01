@@ -7,6 +7,7 @@ use App\Form\PostType;
 use App\Entity\Response;
 use App\Form\AdminPostType;
 use App\Service\Pagination;
+use App\Form\SearchPostType;
 use App\Repository\PostRepository;
 use App\Repository\ResponseRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,12 +22,87 @@ class AdminPostController extends AbstractController
      * @Route("/admin/posts/{page<\d+>?1}", name="admin_posts_index")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index(PostRepository $repo, $page, Pagination $pagination)
+    public function index(PostRepository $repo, $page, Pagination $pagination, Request $request)
     {
         $pagination->setEntityClass(Post::class)
                    ->setCurrentPage($page);
+
+        $post = new Post();
+        $form = $this->createForm(SearchPostType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            if($form->get('search')->getData() == null && $form->get('typePost')->getData() == "All") {
+
+                return $this->redirectToRoute('admin_posts_index');
+            }
+            else {
+
+                return $this->redirectToRoute('admin_posts_search', [
+                    'searchType' => $form->get('searchType')->getData(),
+                    'typePost' => $form->get('typePost')->getData(),
+                    'search' => $form->get('search')->getData()
+                ]);
+            }
+        }
+
         return $this->render('admin/post/index.html.twig', [
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/posts/search/{searchType}/{typePost}/{search}", name="admin_posts_search")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function search(PostRepository $repo, Request $request, $searchType, $typePost, $search = null)
+    {
+        $post = new Post();
+        $form = $this->createForm(SearchPostType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            if($form->get('search')->getData() == null && $form->get('typePost')->getData() == "All") {
+
+                return $this->redirectToRoute('admin_posts_index');
+            }
+            else {
+
+                return $this->redirectToRoute('admin_posts_search', [
+                    'searchType' => $form->get('searchType')->getData(),
+                    'typePost' => $form->get('typePost')->getData(),
+                    'search' => $form->get('search')->getData()
+                ]);
+            }
+        }
+
+        if($search == null) {
+
+            $posts = $repo->searchByTypeAdmin($typePost);
+        }
+        else {
+
+            switch($searchType) {
+    
+                case 'Title':
+                    if($typePost == "All") $posts = $repo->searchByTitleAdmin($search);
+                    else $posts = $repo->searchByTitleAndTypeAdmin($search, $typePost);
+                    break;
+                case 'User':
+                    if($typePost == "All") $posts = $repo->searchByUserAdmin($search);
+                    else $posts = $repo->searchByUserAndTypeAdmin($search, $typePost);
+                    break;
+            }
+        }
+
+        return $this->render('admin/post/search.html.twig', [
+            'form' => $form->createView(),
+            'data' => $posts,
+            'searchType' => $searchType,
+            'search' => $search
         ]);
     }
 
