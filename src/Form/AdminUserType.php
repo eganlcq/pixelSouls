@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class AdminUserType extends ApplicationType
 {
@@ -19,6 +20,7 @@ class AdminUserType extends ApplicationType
             ->add('firstName', TextType::class, $this->getConfig("First Name", "First name of the user"))
             ->add('lastName', TextType::class, $this->getConfig("Last Name", "Last name of the user"))
             ->add('pseudo', TextType::class, $this->getConfig("Pseudo", "Nickname of the user"))
+            ->add('score', IntegerType::class, $this->getConfig("Score", "Score of the user"))
             ->add('image', FileType::class, $this->getConfig("Avatar", "Picture of the user"))
         ;
 

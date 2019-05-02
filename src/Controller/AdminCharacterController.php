@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Fighter;
 use App\Service\Pagination;
+use App\Form\AdminCharacterType;
 use App\Form\SearchCharacterType;
 use App\Repository\FighterRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,6 +87,29 @@ class AdminCharacterController extends AbstractController
             'data' => $fighters,
             'searchType' => $searchType,
             'search' => $search
+        ]);
+    }
+
+    /**
+     * @Route("/admin/characters/{id}/edit", name="admin_characters_edit")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function edit(Fighter $fighter, Request $request, ObjectManager $manager) {
+
+        $form = $this->createForm(AdminCharacterType::class, $fighter);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($fighter);
+            $manager->flush();
+
+            $this->addFlash('success', "Character n°<strong>{$fighter->getId()}</strong> was successfully edited !");
+        }
+
+        return $this->render('admin/character/edit.html.twig', [
+            'fighter' => $fighter,
+            'form' => $form->createView()
         ]);
     }
 

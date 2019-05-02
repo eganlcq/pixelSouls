@@ -1,6 +1,6 @@
 {% extends "admin/base.html.twig" %}
 
-{% block title %}Edition of comment n°{{ message.id }}{% endblock %}
+{% block title %}Edition of character n°{{ fighter.id }}{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -8,12 +8,12 @@
             <div class="col-md-3">&nbsp;</div>
             <div class="col-md-6">
                 <hr class="bg-secondary">
-                <h2 class="text-center">Edition of comment n°{{ message.id }}</h2>
+                <h2 class="text-center">Edition of character n°{{ fighter.id }}</h2>
                 <hr class="bg-secondary">
                 <div class="alert bg-light">
-                    <strong>Related post : </strong>{{ message.relatedPost.title }} <br>
-                    <strong>Writer : </strong>{{ message.writer.pseudo }}<img src="/img/avatars/{{ message.writer.image }}" alt="" class="avatar avatar-micro ml-2"> <br>
-                    <strong>Creation date : </strong>{{ message.createdAt | date('d/m/Y G:m:s') }}
+                    <strong>Total fights : </strong>{{ fighter.totalFights }} <br>
+                    <strong>Owner : </strong>{{ fighter.owner.pseudo }}<img src="/img/avatars/{{ fighter.owner.image }}" alt="" class="avatar avatar-micro ml-2"> <br>
+                    <strong>Creation date : </strong>{{ fighter.createdAt | date('d/m/Y G:m:s') }}
                 </div>
                 {{ form_start(form) }}
                 {{ form_widget(form) }}

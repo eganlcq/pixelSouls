@@ -26,11 +26,11 @@
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="patchDropDownLink">
                         Patch notes
                     </a>
+                    <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="patchDropDownLink">
                     {% for patch in patchNotes %}
-                        <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="patchDropDownLink">
                             <a href="{{ path('patch_show', {'id': patch.id}) }}" class="dropdown-item">{{ patch.name }}</a>
-                        </div>
                     {% endfor %}
+                    </div>
                 </li>
             {% endif %}
         {% endif %}

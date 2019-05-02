@@ -59,6 +59,7 @@
                                 {% endif %}
                             </td>
                             <td class="text-center">
+                                <a href="{{ path('admin_characters_edit', { 'id': character.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                 {% if character.isActive %}
                                     <a href="{{ path('admin_characters_delete', { 'id': character.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                 {% else %}
