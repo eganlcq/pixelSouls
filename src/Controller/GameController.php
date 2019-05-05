@@ -53,7 +53,7 @@ class GameController extends AbstractController
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
             $user = $this->getUser();
-            //$user = $userRepo->findOneByPseudo("Octofen");
+            if($user == null) $user = $userRepo->findOneByPseudo("Octofen");
     
             $fighters = $fighterRepo->findBy([
                 "owner" => $user,
@@ -106,7 +106,7 @@ class GameController extends AbstractController
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
             $user = $this->getUser();
-            //$user = $userRepo->findOneByPseudo("Octofen");
+            if($user == null) $user = $userRepo->findOneByPseudo("Octofen");
     
             $fighters = $fighterRepo->findAllOpponents($user->getId());
     
@@ -185,7 +185,7 @@ class GameController extends AbstractController
             $manager->flush();
     
             $user = $this->getUser();
-            //$user = $userRepo->findOneByPseudo("Octofen");
+            if($user == null) $user = $userRepo->findOneByPseudo("Octofen");
     
             $fighters = $fighterRepo->findBy([
                 "owner" => $user,
@@ -246,7 +246,7 @@ class GameController extends AbstractController
                 $fighter = $repo->findOneById($fighterData->id);
                 $opponent = $repo->findOneById($opponentData->id);
                 $user = $this->getUser();
-                //$user = $userRepo->findOneByPseudo("Octofen");
+                if($user == null) $user = $userRepo->findOneByPseudo("Octofen");
                 $fight = new Fight();
                 $fighter->setExperience($fighterData->experience);
                 $fighter->setLevel($fighterData->level);
@@ -303,7 +303,7 @@ class GameController extends AbstractController
             if(isset($_POST['json'])) {
     
                 $user = $this->getUser();
-                //$user = $userRepo->findOneByPseudo("Octofen");
+                if($user == null) $user = $userRepo->findOneByPseudo("Octofen");
     
                 $json = $_POST['json'];
                 $data = json_decode($json);
