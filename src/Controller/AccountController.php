@@ -47,6 +47,31 @@ class AccountController extends AbstractController
     }
 
     /**
+     * @Route("/jsonLogin", name="account_jsonLogin")
+     */
+    public function jsonLogin(UserRepository $repo, Request $request, UserPasswordEncoderInterface $encoder) {
+
+        $data = json_decode($request->getContent(), true);
+        $user = $repo->findOneByEmail($data['mail']);
+        $password = $data['password'];
+        $check = $encoder->isPasswordValid($user, $password);
+
+        if($check) {
+
+            return $this->json($user, 200, [], [
+                ObjectNormalizer::ATTRIBUTES => [
+                    'id',
+                    'pseudo'
+                ]
+            ]);
+        }
+        else {
+
+            return $this->json("error");
+        }
+    }
+
+    /**
      * @Route("/logout", name="account_logout")
      */
     public function logout() {}
