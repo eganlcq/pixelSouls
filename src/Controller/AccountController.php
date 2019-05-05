@@ -50,7 +50,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/jsonLogin", name="account_jsonLogin")
      */
-    public function jsonLogin(UserRepository $repo, Request $request, UserPasswordEncoderInterface $encoder) {
+    public function jsonLogin(UserRepository $repo, UserPasswordEncoderInterface $encoder) {
 
         $json = $_POST['json'];
         $data = json_decode($json, true);
