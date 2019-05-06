@@ -134,6 +134,11 @@ class User implements UserInterface
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tempToken;
+
     public function __construct()
     {
         $this->favoriteUsers = new ArrayCollection();
@@ -556,6 +561,18 @@ class User implements UserInterface
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getTempToken(): ?string
+    {
+        return $this->tempToken;
+    }
+
+    public function setTempToken(?string $tempToken): self
+    {
+        $this->tempToken = $tempToken;
 
         return $this;
     }

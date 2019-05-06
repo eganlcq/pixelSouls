@@ -50,7 +50,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/jsonLogin", name="account_jsonLogin")
      */
-    public function jsonLogin(UserRepository $repo, UserPasswordEncoderInterface $encoder) {
+    public function jsonLogin(UserRepository $repo, UserPasswordEncoderInterface $encoder, ObjectManager $manager) {
 
         $json = $_POST['json'];
         $data = json_decode($json, true);
@@ -68,10 +68,14 @@ class AccountController extends AbstractController
 
         if($check) {
 
+            $token = RandomString::GenerateToken();
+            $user->setTempToken($token);
+            $manager->persist($user);
+            $manager->flush();
+
             return $this->json($user, 200, [], [
                 ObjectNormalizer::ATTRIBUTES => [
-                    'id',
-                    'pseudo'
+                    'tempToken'
                 ]
             ]);
         }

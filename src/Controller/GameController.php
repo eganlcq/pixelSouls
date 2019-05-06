@@ -46,9 +46,9 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/listCharacters/{token}/{idUser}", name="game_listCharacters")
+     * @Route("/listCharacters/{token}/{tempToken}", name="game_listCharacters")
      */
-    public function listCharacter(FighterRepository $fighterRepo, $token, UserRepository $userRepo, $idUser = "") {
+    public function listCharacter(FighterRepository $fighterRepo, $token, UserRepository $userRepo, $tempToken = "") {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
@@ -56,7 +56,7 @@ class GameController extends AbstractController
 
             if($user == null) {
 
-                if($idUser != "") $user = $userRepo->findOneById($idUser);
+                if($tempToken != "") $user = $userRepo->findOneByTempToken($tempToken);
                 else $user = $userRepo->findOneByPseudo("Octofen");
             }
     
@@ -104,9 +104,9 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/listOpponents/{token}/{idUser}", name="game_listOpponents")
+     * @Route("/listOpponents/{token}/{tempToken}", name="game_listOpponents")
      */
-    public function listOpponents(FighterRepository $fighterRepo, $token, UserRepository $userRepo, $idUser = "") {
+    public function listOpponents(FighterRepository $fighterRepo, $token, UserRepository $userRepo, $tempToken = "") {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
@@ -114,7 +114,7 @@ class GameController extends AbstractController
 
             if($user == null) {
 
-                if($idUser != "") $user = $userRepo->findOneById($idUser);
+                if($tempToken != "") $user = $userRepo->findOneByTempToken($tempToken);
                 else $user = $userRepo->findOneByPseudo("Octofen");
             }
     
@@ -184,9 +184,9 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/removeCharacter/{id}/{token}/{idUser}", name="game_deleteCharacter")
+     * @Route("/removeCharacter/{id}/{token}/{tempToken}", name="game_deleteCharacter")
      */
-    public function deleteCharacter(Fighter $fighter, ObjectManager $manager, FighterRepository $fighterRepo, $token, UserRepository $userRepo, $idUser = "") {
+    public function deleteCharacter(Fighter $fighter, ObjectManager $manager, FighterRepository $fighterRepo, $token, UserRepository $userRepo, $tempToken = "") {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
@@ -198,7 +198,7 @@ class GameController extends AbstractController
 
             if($user == null) {
 
-                if($idUser != "") $user = $userRepo->findOneById($idUser);
+                if($tempToken != "") $user = $userRepo->findOneByTempToken($tempToken);
                 else $user = $userRepo->findOneByPseudo("Octofen");
             }
     
@@ -246,9 +246,9 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/updateFighter/{token}/{idUser}", name="updateFighter")
+     * @Route("/updateFighter/{token}/{tempToken}", name="updateFighter")
      */
-    public function updateFighter(ObjectManager $manager, FighterRepository $repo, $token, UserRepository $userRepo, $idUser = "") {
+    public function updateFighter(ObjectManager $manager, FighterRepository $repo, $token, UserRepository $userRepo, $tempToken = "") {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
@@ -264,7 +264,7 @@ class GameController extends AbstractController
 
                 if($user == null) {
 
-                    if($idUser != "") $user = $userRepo->findOneById($idUser);
+                    if($tempToken != "") $user = $userRepo->findOneByTempToken($tempToken);
                     else $user = $userRepo->findOneByPseudo("Octofen");
                 }
 
@@ -315,9 +315,9 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/newCharacter/{token}/{idUser}", name="newCharacter")
+     * @Route("/newCharacter/{token}/{tempToken}", name="newCharacter")
      */
-    public function addFighter(ObjectManager $manager, $token, UserRepository $userRepo, $idUser = "") {
+    public function addFighter(ObjectManager $manager, $token, UserRepository $userRepo, $tempToken = "") {
 
         if(isset($_POST["token"]) && $_POST["token"] == $token) {
 
@@ -327,7 +327,7 @@ class GameController extends AbstractController
                 
                 if($user == null) {
 
-                    if($idUser != "") $user = $userRepo->findOneById($idUser);
+                    if($tempToken != "") $user = $userRepo->findOneByTempToken($tempToken);
                     else $user = $userRepo->findOneByPseudo("Octofen");
                 }
     
