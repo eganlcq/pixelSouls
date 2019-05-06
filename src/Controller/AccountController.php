@@ -55,8 +55,16 @@ class AccountController extends AbstractController
         $json = $_POST['json'];
         $data = json_decode($json, true);
         $user = $repo->findOneByEmail($data['mail']);
-        $password = $data['password'];
-        $check = $encoder->isPasswordValid($user, $password);
+
+        if($user == null) {
+
+            $check = false;
+        }
+        else {
+
+            $password = $data['password'];
+            $check = $encoder->isPasswordValid($user, $password);
+        }
 
         if($check) {
 
